@@ -1,0 +1,43 @@
+env_config:
+    n_player: 9
+    n_role: 5
+    n_werewolf: 3
+    n_seer: 1
+    n_guard: 1
+    n_witch: 1
+    n_villager: 3
+    n_hunter: 0
+
+agent_config:
+    all_candidates:
+        - model_type: gpt
+          model_params:
+              tokenizer: null
+              llm: 'gpt-4o-mini-2024-07-18'
+              temperature: 1.0
+          sample_ratio: 0.5
+        
+        - model_type: gpt4o
+          model_params:
+              tokenizer: null
+              llm: 'gpt-4o-2024-11-20'
+              temperature: 1.0
+          sample_ratio: 0.5
+
+        - model_type: makto_agent
+          model_params:
+              port: {port}
+              tokenizer: {makto_model_path}
+              llm: {makto_model_path}
+              ip: {ip}
+              temperature: {temperature}
+          sample_ratio: 0.5
+          
+        - model_type: sft_agent
+          model_params:
+              port: {port}
+              tokenizer: {sft_model_path}
+              llm: {sft_model_path}
+              ip: {ip}
+              temperature: {temperature}
+          sample_ratio: 0.5

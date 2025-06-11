@@ -1,0 +1,28 @@
+# role assignment
+env_config:
+    n_player: 9
+    n_role: 5
+    n_werewolf: 3
+    n_seer: 1
+    n_guard: 1
+    n_witch: 1
+    n_villager: 3
+    n_hunter: 0
+
+
+# agent assignment
+agent_config:
+    werewolf:
+        model_type: gpt
+        model_params:
+            tokenizer: null
+            llm: {gpt_model_name}
+            temperature: {temperature}
+    villager:
+        model_type: makto_agent
+        model_params:
+            port: {port}
+            tokenizer: {model_path}
+            llm: {model_path}
+            ip: {ip}
+            temperature: {temperature}

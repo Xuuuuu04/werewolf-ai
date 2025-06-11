@@ -1,0 +1,164 @@
+[
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "白天全票出局\n",
+                    "notes": "# Night Information\n- Last night's verification shows player 3 is a good identity.\n\n# Speeches and Votes\nPlayer 2:\n- I claim to be a villager, and I slightly suspect player 4.\n\nPlayer 3:\n- Eliminated last night due to being killed.\n\nPlayer 4:\n- I think player 2's speech wasn't good. They want to accuse me but don't dare to.\n\nPlayer 5:\n- I declare player 7 as a bad identity. I think players 2 and 4 are accusing each other.\n\nPlayer 6:\n- I believe I'm a good identity. I point out that player 2 is better than player 4.\n\nPlayer 7:\n- I claim to be the Seer. I declare player 3 as a good identity.\n\nPlayer 8:\n- I state that I'm a good identity and choose to remain neutral.\n\nPlayer 9:\n- I think player 7 is a werewolf. I believe player 5 is the real Seer.\n\nPlayer 1:\n- I'm the Witch. I explain that player 3 was both guarded and saved, and I want to side with player 5.",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "",
+                    "notes": "",
+                    "round": 2
+                }
+            ],
+            "player": 7
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "**Next round at night**:\n - Villagers have no special skills. \n**Thoughts on speaking during the next round in the daytime**:\n- Carefully analyze the speeches of other players and cast each vote seriously to exile the werewolves.",
+                    "notes": "# Night information:\n- Player No. 3 died last night.\n# Speech records:\nPlayer No. 2:\n- Suspected Player No. 4.\nSubjective identity judgment: Villager\nPlayer No. 4:\n- Thought Player No. 2's behavior was not good.\nSubjective identity judgment: Villager\nPlayer No. 5:\n- Claimed to be the Seer, Player No. 7 is a bad identity.\n- Said Players No. 2 and 4 were suspecting each other, planning to check one of them tonight.\nSubjective identity judgment: Seer\nPlayer No. 6:\n- Believed one of Players No. 2 and 4 is a werewolf.\n- Didn't believe Player No. 5 is the Seer.\nSubjective identity judgment: Villager\nPlayer No. 7:\n- Claimed to be the Seer, Player No. 3 is a good identity.\n- Will check Player No. 4 tonight.\n- Believed Player No. 6 is a good person.\nSubjective identity judgment: Werewolf\nPlayer No. 8:\n- Believed Player No. 7 is the Seer.\n- Abstained from voting.\nSubjective identity judgment: Villager\nPlayer No. 9:\n- Supported Player No. 5 as the Seer.\nSubjective identity judgment: Werewolf pretending to be a villager\nPlayer No. 1:\n- Claimed to be the Witch.\n- Saved Player No. 3 last night, but it was ineffective due to the Guard's protection.\n- Supported Player No. 5.\nSubjective identity judgment: Witch\n# Voting results:\nVoted for No. 5: Player No. 7\nVoted for No. 7: Players No. 6, 9, 5, 2, 1, 4\nAbstained: Player No. 8\nPlayer No. 7 was eliminated.",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "",
+                    "notes": "",
+                    "round": 2
+                }
+            ],
+            "player": 8
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "**Next round at night**:\n - Villagers have no special skills. \n**Thoughts on speaking during the next round in the daytime**:\n- Carefully analyze the speeches of other players and cast each vote seriously to exile the werewolves.",
+                    "notes": "Night information:\n- Villager, no information during the night, Player 3 was eliminated.\n\nSpeech records:\nPlayer 2:\n- No information, Player 3 eliminated, slightly suspect Player 4.\nSubjective identity judgment: Villager\n\nPlayer 4:\n- Thinks Player 2 is not good, but doesn't declare Player 2 as a definite werewolf.\nSubjective identity judgment: Werewolf\n\nPlayer 5:\n- Bad identity for Player 7, will verify either Player 2 or 4 tonight.\nSubjective identity judgment: Seer\n\nPlayer 6:\n- Doesn't believe Player 5 is the Seer, remains neutral, waiting for possible Seer and Player 7's bad identity card to speak.\nSubjective identity judgment: Villager\n\nPlayer 7:\n- Verified Player 3 as good, will verify Player 4 tonight.\nSubjective identity judgment: Seer\n\nPlayer 8:\n- Believes Player 7 is the Seer, chooses to abstain from voting to show good identity.\nSubjective identity judgment: Good\n\nPlayer 9:\n- Believes Player 5 is the Seer, votes to eliminate Player 7.\nSubjective identity judgment: Werewolf\n\nPlayer 1:\n- Sides with Player 5, tells everyone Player 3 might be the Guard who was eliminated, same protection same poison.\nSubjective identity judgment: Witch\n\nVoting results:\n- Votes for Player 5: Player 7\n- Votes for Player 7: Players 6, 9, 5, 2, 1, 4\n- Player 7 is eliminated",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "",
+                    "notes": "",
+                    "round": 2
+                }
+            ],
+            "player": 6
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "出局。",
+                    "notes": "On the first night, Player 3 (me) was killed by the werewolves, and the Witch did not use the healing potion.",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "",
+                    "notes": "",
+                    "round": 2
+                }
+            ],
+            "player": 3
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "**Next night phase**\nI plan to kill Player 1 because Player 1 is the Witch. I want to eliminate her to prevent her from using the healing potion or poison to interfere with our plans.\n**Next day phase speech strategy**: Check if the Witch is out, then decide whether to coordinate our votes.",
+                    "notes": "# Objective Analysis\n# Night Information\n- Player 3 was targeted during the night.\n# Day Information\n- Player 3 was eliminated, speech begins with Player 2.\n# Behavior Analysis:\n- Player 2: Claims to be a villager, could be a true villager or a hidden special role.\nSubjective identity judgment: Villager or Guard.\n- Player 5: Werewolf teammate pretending to be a seer accurately identified Player 7 as a bad identity, the accusation is quite strong.\nSubjective identity judgment: Werewolf.\n- Player 6: Accused me of being a werewolf, believes Player 2 is good. I can use this to conclude that Players 2 and 6 might have aligned identities.\nSubjective identity judgment: Villager.\n- Player 7: Seer gave a good identity to the already eliminated Player 3, which has no credibility. So this round I will strongly support my werewolf teammate Player 5 and vote for Player 7.\nSubjective identity judgment: Seer.\n- Player 8: Indicates they might abstain from voting, not wanting to side with any role.\nSubjective identity judgment: Villager.\n- Player 9: As the last-positioned werewolf companion, I think their speech and logic are good, aiming to vote out the real seer.\nSubjective identity judgment: Werewolf.\n- Player 1: Claims to be the witch and supports Player 5 who is pretending to be the seer. The werewolf team currently has a clear advantage.\nSubjective identity judgment: Witch.",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "# 游戏结束。",
+                    "notes": "Game over.",
+                    "round": 2
+                }
+            ],
+            "player": 4
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "**Next night**\nI plan to kill Player 1, as they might be the Witch. We need to eliminate the Witch's threat as soon as possible.\n**Next day's speech strategy**:\nFollow Player 5, my fellow werewolf, in voting and attack Player 2.",
+                    "notes": "# Night Information\n- Last night, player 3 was chosen to be killed and died.\n\n# Speeches and Voting\n- Player 2:\nClaims to be a villager, slightly suspects player 4.\nSubjective identity judgment: Villager\n\n- Player 4:\nThinks player 2's behavior of suspecting others without listening to speeches is not good, defends against player 2.\nSubjective identity judgment: Villager\n\n- Player 5:\nClaims to be the Seer and gives player 7 a bad identity.\nSubjective identity judgment: Werewolf\n\n- Player 6:\nThinks between player 2 and 4, player 4 seems more like a werewolf.\nSubjective identity judgment: Villager\n\n- Player 7:\nClaims to be the Seer and gives player 3 a good identity, thinks players 2 and 6 speak like good people.\nSubjective identity judgment: Seer\n\n- Player 8:\nThinks player 7 seems like the Seer, chooses to remain neutral.\nSubjective identity judgment: Villager\n\n- Player 9:\nI declare that I'm a werewolf.\nSubjective identity judgment: Werewolf\n\n- Player 1:\nThinks the Witch sides with player 5, player 3 was protected by both the Guard and the Witch.\nSubjective identity judgment: Witch",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "游戏结束。",
+                    "notes": "Game over.",
+                    "round": 2
+                }
+            ],
+            "player": 9
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "**Next round at night**:\n - Villagers have no special skills. \n**Thoughts on speaking during the next round in the daytime**:\n- Carefully analyze the speeches of other players and cast each vote seriously to exile the werewolves.",
+                    "notes": "# Night Information\n- Villager, no action. Player 3 is out.\n# Speeches and Voting\nPlayer 4:\n- Didn't claim any role, thinks Player 2's villager claim is not good.\nSubjective identity judgment: Werewolf\nPlayer 5:\n- Claims to be the Seer, declares Player 7 as bad identity.\n- Wants to vote out Player 7, plans to check either Player 2 or 4.\nSubjective identity judgment: Seer or Werewolf\nPlayer 6:\n- Didn't claim any role, believes Players 2 and 4 are not on the same side.\n- Thinks Player 4's identity is less trustworthy than Player 2's.\n- Doesn't believe Player 5 is the Seer.\nSubjective identity judgment: Unknown\nPlayer 7:\n- Claims to be the Seer, declares Player 3 as good identity.\n- Believes Player 2 is likely a good role.\n- Thinks Player 4 is likely a werewolf, considers Player 6 to be a good role as well.\nSubjective identity judgment: Seer or Werewolf\nPlayer 8:\n- Didn't claim any role, believes Player 7 is the Seer.\n- Thinks Player 5's speech was too brief.\nSubjective identity judgment: Unknown\nPlayer 9:\n- Didn't claim any role, considers Player 4 as good.\n- Supports Player 5 as the Seer.\nSubjective identity judgment: Unknown\nPlayer 1:\n- Claims to be the Witch, supports Player 5.\n- Player 3 was killed and poisoned on the first night, wants to vote for Player 7.\nSubjective identity judgment: Unknown\n# Summary of my own speech\n- Claimed to be a villager, suspected Player 4.\n# Voting\n- I choose to vote for Player 7.",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "",
+                    "notes": "",
+                    "round": 2
+                }
+            ],
+            "player": 2
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "**Next night**\nI plan to kill Player 1 because Player 1 is the Witch. If we don't eliminate her first, we werewolves will be under a lot of pressure.\n**Thought process for the next day's speech**:\n- As long as we don't create a peaceful night, we can win by block voting.",
+                    "notes": "# Night Information\n- Werewolves killed Player 3, Player 3 is eliminated.\n# Speeches and Voting\nPlayer 2:\n- Villager, slightly suspect Player 4.\nSubjective identity judgment: Villager\nPlayer 4:\n- Suspect Player 2.\nSubjective identity judgment: Fellow werewolf\nPlayer 6:\n- Player 2 and Player 4's statements can't be on the same side.\n- Remain neutral for now.\nSubjective identity judgment: Unknown identity\nPlayer 7:\n- Seer, Player 3 is good identity.\n- Believe Player 4 is a werewolf.\nSubjective identity judgment: Seer\nPlayer 8:\n- More inclined to trust Player 7.\n- Might choose to abstain from voting.\nSubjective identity judgment: Unknown identity\nPlayer 9:\n- Believe Player 5 is the Seer.\nSubjective identity judgment: Fellow werewolf\nPlayer 1:\n- Witch\nSubjective identity judgment: Unknown identity\n# Summary of my own speech\n- Player 7 is bad identity. Check Player 2 and Player 4. Vote for Player 7.\n# Voting\n- I choose to vote for Player 7.",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "",
+                    "notes": "",
+                    "round": 2
+                }
+            ],
+            "player": 5
+        },
+        "event": "notetaking"
+    },
+    {
+        "content": {
+            "context": [
+                {
+                    "future_strategy": "- **Next night phase**\nI plan to poison Player 5, as they are a werewolf pretending to be a seer.\n**Next day phase speech strategy**:\n- Analyze the situation, identify the real seer and werewolves.",
+                    "notes": "# Objective Information\n- Night information: Werewolves killed No.3. No.3 died.\n- Day information: Speech starts from No.2.\n\n# Speech and Behavior Analysis\n- Player 2:\n- Claims to be a villager. Due to No.3's death, slightly suspects No.4.\n- Hopes the Seer in later positions will speak well.\n- Subjective analysis: Temporarily marked as a werewolf. Thus, No.4 is likely a good person.\n\n- Player 3: Eliminated.\n\n- Player 4:\n- Thinks Player 2's villager behavior is not good.\n- States that No.2 suspecting No.4 is an attempt to protect No.4 from being voted out.\n- Subjective analysis: Likely a good person.\n\n- Player 5:\n- Claims to be the Seer. No.7 is a bad identity.\n- Believes No.2 and No.4 are not on the same side due to their mutual suspicion.\n- Will check either No.2 or No.4 tonight.\n- Subjective analysis: Seer.\n\n- Player 6:\n- Claims to be a good person.\n- Believes No.2 and No.4 are not on the same side.\n- Thinks No.4's response to No.2's slight suspicion is \"weak and unconvincing\".\n- No.4's identity is lower than No.2's.\n- Subjective analysis: Villager.\n\n- Player 7:\n- Claims to be the Seer. No.3 is a good identity.\n- Believes the Witch didn't save anyone or there was a failed save due to Guard and Witch protecting the same person.\n- Thinks No.2 is a good person.\n- Believes No.4's speech suspecting No.2 is problematic. Thinks No.4 can only be a werewolf.\n- Believes that since No.5 can declare No.7 as a bad identity, either No.4 and No.5 are both werewolves, or No.5 has a werewolf companion in a later position.\n- Thinks No.6 is a good person.\n- Hopes that the werewolf among No.8, No.9, and No.1 will side with him.\n- Plans to vote for No.5 today, hopes the Guard and Witch can cooperate tacitly.\n- Subjective analysis: Werewolf.\n\n- Player 8:\n- Claims to be a good person.\n- Softly sides with No.7.\n- Might abstain from voting.\n- Subjective analysis: Likely a good person.\n\n- Player 9:\n- Claims to be a good person.\n- Thinks No.4's definition of No.2 is fair.\n- Believes No.3 might have been the Guard.\n- Sides with No.5.\n- Subjective analysis: Likely a good person.\n\n- Player 1:\n- I am the Witch.\n\n# Identity Predictions\n- No.1: Witch\n- No.2: Werewolf\n- No.3: Villager, Guard\n- No.4: Villager\n- No.5: Seer\n- No.6: Villager\n- No.7: Werewolf\n- No.8: Villager, Werewolf\n- No.9: Villager, Werewolf",
+                    "round": 1
+                },
+                {
+                    "future_strategy": "游戏结束。",
+                    "notes": "Game over.",
+                    "round": 2
+                }
+            ],
+            "player": 1
+        },
+        "event": "notetaking"
+    }
+]

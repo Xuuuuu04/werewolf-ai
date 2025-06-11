@@ -1,0 +1,1108 @@
+[
+    {
+        "content": {
+            "player": 7,
+            "role": "werewolf",
+            "uid": 59786873812089
+        },
+        "event": "roles"
+    },
+    {
+        "content": {
+            "player": 6,
+            "role": "simple_villager",
+            "uid": 693110244383851
+        },
+        "event": "roles"
+    },
+    {
+        "content": {
+            "player": 5,
+            "role": "simple_villager",
+            "uid": 1291244569637536
+        },
+        "event": "roles"
+    },
+    {
+        "content": {
+            "player": 2,
+            "role": "werewolf",
+            "uid": 1379205500120192
+        },
+        "event": "roles"
+    },
+    {
+        "content": {
+            "player": 1,
+            "role": "witch",
+            "uid": 1484759703236140
+        },
+        "event": "roles"
+    },
+    {
+        "content": {
+            "player": 4,
+            "role": "simple_villager",
+            "uid": 3631005313546004
+        },
+        "event": "roles"
+    },
+    {
+        "content": {
+            "player": 3,
+            "role": "seer",
+            "uid": 3842106875185316
+        },
+        "event": "roles"
+    },
+    {
+        "content": "side-kill",
+        "event": "end_rule"
+    },
+    {
+        "content": {
+            "round": 1,
+            "status": "night"
+        },
+        "event": "cycle_round"
+    },
+    {
+        "content": {
+            "is_werewolf": false,
+            "night": 1,
+            "player": 1
+        },
+        "event": "inquired"
+    },
+    {
+        "content": {
+            "context": [],
+            "decision_kill": {
+                "2": 4
+            },
+            "night": 1
+        },
+        "event": "werewolf_night_discuss"
+    },
+    {
+        "content": {
+            "night": 1,
+            "target_player": 4
+        },
+        "event": "werewolf_kill"
+    },
+    {
+        "content": {
+            "night": 1,
+            "player": 4
+        },
+        "event": "healed"
+    },
+    {
+        "content": {
+            "night": 1,
+            "player": null
+        },
+        "event": "poison"
+    },
+    {
+        "content": {
+            "round": 1,
+            "status": "day"
+        },
+        "event": "cycle_round"
+    },
+    {
+        "content": {
+            "context": "首置位发言，没有太多信息，目前无法点评任何一个玩家。希望预言家能带领好人走向胜利！可能我身边的5号、7号中有狼人要起跳了吧。",
+            "day": "1-1",
+            "player": 6
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [],
+            "day": "1-1",
+            "identity_label": {
+                "1": [
+                    "NA"
+                ],
+                "2": [
+                    "NA"
+                ],
+                "3": [
+                    "NA"
+                ],
+                "4": [
+                    "NA"
+                ],
+                "5": [
+                    "werewolf",
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf",
+                    "simple_villager"
+                ]
+            },
+            "player": 6,
+            "self_present": [
+                "NA"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "大家早上好，我是你们的盖世预言家，6号金水，验6号的理由很简单，就是从身边验的。结果6号是首置位发言，也没办法帮我分析一下局势。希望今天不是怂狼局，后置位狼人要勇敢跳出来，不然我都不知道投谁。也不知道末置位的5号玩家是不是好人，我这个位置太被动了，希望好人能帮我归归票，投一个狼牌出局，谢谢大家。",
+            "day": "1-1",
+            "player": 7
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [],
+            "day": "1-1",
+            "identity_label": {
+                "1": [
+                    "NA"
+                ],
+                "2": [
+                    "NA"
+                ],
+                "3": [
+                    "NA"
+                ],
+                "4": [
+                    "NA"
+                ],
+                "5": [
+                    "NA"
+                ],
+                "6": [
+                    "simple_villager"
+                ]
+            },
+            "player": 7,
+            "self_present": [
+                "seer"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "我是女巫，4号银水。我出来给预言家排个坑，方便预言家晚上验人。既然我已经跳出来了，那如果今天真预言家被投掉了的话，好人就输了。我认为7号发言挺诚恳的，像预言家。但是验人力度太小了，因此我决定听听后面对跳预言家的玩家的发言再选择投票吧。如果没有跟7号对跳预言家的玩家，那么今天在3号、5号这两张牌里投一个。",
+            "day": "1-1",
+            "player": 1
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [],
+            "day": "1-1",
+            "identity_label": {
+                "2": [
+                    "NA"
+                ],
+                "3": [
+                    "NA"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "NA"
+                ],
+                "6": [
+                    "NA"
+                ],
+                "7": [
+                    "seer",
+                    "werewolf"
+                ]
+            },
+            "player": 1,
+            "self_present": [
+                "witch"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "我是村民，7号起身跳预言家，给6号发金水，我认为7号不好的点是“我这个位置太被动了，希望好人能帮我归归票，投一个狼牌出局”，我认为预言家的视角里面只能认清自己的金水和外置位的女巫牌，甚至4号牌你都得听发言去着重分析是否有自刀狼的可能，可能高置位预言家希望女巫归票吧，这边可以看后面其他玩家的发言，具体可以看各位玩家的发言和票型，言行不一致的大概率就是狼人牌。",
+            "day": "1-1",
+            "player": 2
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [],
+            "day": "1-1",
+            "identity_label": {
+                "1": [
+                    "NA"
+                ],
+                "3": [
+                    "NA"
+                ],
+                "4": [
+                    "werewolf",
+                    "simple_villager"
+                ],
+                "5": [
+                    "NA"
+                ],
+                "6": [
+                    "NA"
+                ],
+                "7": [
+                    "seer",
+                    "werewolf"
+                ]
+            },
+            "player": 2,
+            "self_present": [
+                "simple_villager"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "我是预言家，查验1号是好人，首置位6号发言“可能身边5号、7号有狼要起跳了吧”，说明不认识7号悍跳狼，我给6号标记个好人身份，1号是我查验的金水，4号是女巫的银水，排除4号自刀的可能性的话，4号也算半个好人了，狼坑就是2号、5号，我认为7号是定狼，今天投7号出局，晚上我查验5号。",
+            "day": "1-1",
+            "player": 3
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [
+                7
+            ],
+            "day": "1-1",
+            "identity_label": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf",
+                    "simple_villager"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "werewolf",
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "player": 3,
+            "self_present": [
+                "seer"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "首先我是一张好人牌，其次分析下场上的局势：1号是女巫、4号是女巫的银水、6号是预言家的金水、7号是预言家。那么场上的格局就很明显了，我站边7号玩家。2号玩家的发言居然去打7号玩家位置被动！7号玩家查验的位置对于预言家来说，不也是很被动的吗？在第一轮发言的情况下，7号玩家查验6号是金水，而7号当时并没有听到后置位玩家的发言。难道这就是你2号玩家强打7号的理由吗？你2号跟3号是两张狼人牌！5号玩家，但凡你是张好人牌，是不是能认下我说的观点？今天我4号玩家作为女巫的银水起来归票，投2号玩家，3号玩家留给女巫晚上解决吧！",
+            "day": "1-1",
+            "player": 4
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [
+                2
+            ],
+            "day": "1-1",
+            "identity_label": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "seer"
+                ]
+            },
+            "player": 4,
+            "self_present": [
+                "simple_villager"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "3号说今晚查验我5号。那我弃票，但凡你明天如果说查验我是狼人的话，那你直接出局。",
+            "day": "1-1",
+            "player": 5
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [],
+            "day": "1-1",
+            "identity_label": {
+                "1": [
+                    "NA"
+                ],
+                "2": [
+                    "NA"
+                ],
+                "3": [
+                    "werewolf",
+                    "seer"
+                ],
+                "4": [
+                    "NA"
+                ],
+                "6": [
+                    "NA"
+                ],
+                "7": [
+                    "NA"
+                ]
+            },
+            "player": 5,
+            "self_present": [
+                "witch",
+                "simple_villager"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": null,
+        "event": "vote_start"
+    },
+    {
+        "content": {
+            "day": "1-1",
+            "player": 3,
+            "reason": "预言家身份判断：3号（我）是预言家\n- 7号是悍跳预言家的狼人。\n- 我查验1号是好人，7号跟我对跳预言家肯定是狼人。\n狼人的可能性排序：\n- 7号>1号、2号、3号、4号、5号、6号\n综上，投给7号狼人对好人收益最大。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "NA"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "NA"
+                ],
+                "5": [
+                    "NA"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "voted_to_player": 7
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-1",
+            "player": 7,
+            "reason": "# 优劣势分析：\n- 作为狼人，我目前已知信息如下：\n- **投给3号玩家**：3号和我对跳预言家，3号是真预言家。\n- **投给2号玩家**：虽然2号倒钩我7号，但是作为狼人，我不能投自己的同伴。\n\n综上，我认为投给3号玩家是更好的选择。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "voted_to_player": 3
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-1",
+            "player": 4,
+            "reason": "# 预言家身份判断：7号玩家\n# 行为分析：\n- **2号玩家**：首先2号玩家以7号说自己发言位置比较被动这一点，去攻击了7号玩家。如果2号玩家是一张好人牌，一定会给7号玩家一些容忍度的，但2号玩家却直接去攻击7号，这充分表明了2号玩家是一张狼人牌。\n# 站边7号玩家的理由：首先7号玩家给发过言的6号玩家发了一张金水。如果7号玩家是狼人，肯定会发查杀去搏杀后置位的预言家，而不是给6号玩家发金水。\n# 狼人的可能性排序：\n2>3>1、4、5、6、7\n综上，我选择投2号玩家。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "seer"
+                ]
+            },
+            "voted_to_player": 2
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-1",
+            "player": 5,
+            "reason": "# 情况分析\n- 3号和7号都起跳预言家，发言顺序是7号、3号。\n- 7号给6号发金水，3号给1号发金水。但我无法通过本轮发言去确定谁是真的预言家。\n- 3号表示今晚查验5号（我自己）。\n- 所以我选择弃票，通过明天3号对我的身份定义，去选择站边。\n\n- **综上，我选择弃票。**",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "simple_villager",
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf",
+                    "seer"
+                ],
+                "4": [
+                    "simple_villager",
+                    "werewolf"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager",
+                    "werewolf"
+                ],
+                "7": [
+                    "werewolf",
+                    "seer"
+                ]
+            },
+            "voted_to_player": null
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-1",
+            "player": 1,
+            "reason": "# 预言家身份判断：\n目前场上有7号、3号玩家声称自己是预言家.\n- **7号玩家**：发6号金水，虽然力度小，但是非常诚恳。\n- **3号玩家**：发1号金水，没有提及2号的发言，只是作出了简单定义。\n# 综上，7号玩家的真诚度让我更愿意相信他是真预言家。我认为2号、3号可以是两头狼，而4号玩家作为女巫的银水，归票了2号玩家，基于此，我们进行判断。\n# 狼人的可能性排序: \n- 3=2>1=4=5=6=7\n综上，我认为投票给2号玩家是更好的选择。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "seer"
+                ]
+            },
+            "voted_to_player": 2
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-1",
+            "player": 2,
+            "reason": "作为狼人，我目前已知信息是3号和7号对跳预言家。\n# 优劣势分析：\n- **投给3号玩家**：优势是可以将预言家投出局，狼人比较好赢；劣势是会暴露自己的狼人身份，不利于狼人阵营后期的存活。\n- **投给7号玩家**：劣势是会将自己的狼队友投出局，狼人阵营将会落后一个轮次；而优势是能让好人认为2号和7号不共边，所以应该投7号。\n综上，我认为投给7号玩家是更好的选择。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "voted_to_player": 7
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-1",
+            "player": 6,
+            "reason": "# 预言家身份判断：\n目前场上有7号、3号玩家声称自己是预言家。发言顺序为7号、3号。\n- **7号玩家**：前置位发言，给我发金水，发言态度较为诚恳。\n- **3号玩家**：后置位发言，3号定义我为好人身份的结论给得太快，像是狼人的睁眼视角。\n# 基于预言家判断给出其他玩家的身份判定：\n- **2号玩家**：发言想攻击7号但却找不到角度入手，疑似和3号共边。\n- **4号玩家**：女巫的银水，认为2号和3号为狼人的观点和我一样，但是本轮投票2号存在分票行为。\n- **5号玩家**：本轮决定弃票，可能是分不清局势的好人。\n# 狼人的可能性排序: 3>2>5>4\n综上，我决定投票给3号玩家。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "seer"
+                ]
+            },
+            "voted_to_player": 3
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "1": 2,
+            "2": 7,
+            "3": 7,
+            "4": 2,
+            "6": 3,
+            "7": 3
+        },
+        "event": "vote_results"
+    },
+    {
+        "content": {
+            "context": "这局的格局很明显了，4号是一个自刀狼，女巫你救了个狼人！昨天4号起身攻打我的逻辑就是强打。我来分析一下，7号昨天说自己所处的位置很被动，你4号却来强打我2号，说我在打7号玩家说自己位置被动这一点。现在场上的格局很明显，我一张民牌凭何能上抗推位，4号如果是好人的话，他凭何能号票到我2号身上，难道第一天不应该在对跳预言家的玩家中去投票吗？女巫抓紧时间回头吧，现在回头还不晚，今天打飞7号，晚上女巫去把4号毒掉，好人的轮次还是够的！就凭昨天4号分票去投给外置位的玩家这一点，他就一定拿不起好人牌，可能他认为第一天号票不一定能把3号玩家投出去，于是就强打我一张村民牌吧！",
+            "day": "1-2",
+            "player": 2
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [
+                7
+            ],
+            "day": "1-2",
+            "identity_label": {
+                "1": [
+                    "NA"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "werewolf"
+                ],
+                "5": [
+                    "NA"
+                ],
+                "6": [
+                    "NA"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "player": 2,
+            "self_present": [
+                "simple_villager"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "我不理解投2号是什么情况，如果相信我是预言家，请好人投7号，如果相信7号是预言家就投给我。1号是金水，2号是跟我一起投7号悍跳狼的，所以我给2号标个好人。我是预言家，4号银水是不是自刀狼，请女巫自行分辨，5号上一轮弃票，没有去冲票，所以我给5号标记个好人，那么狼坑是6号和7号，这是预言家的视角，请好人这轮投票不要站错边！投7号出局，女巫毒6号，我晚上随便验。",
+            "day": "1-2",
+            "player": 3
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [
+                7
+            ],
+            "day": "1-2",
+            "identity_label": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "simple_villager"
+                ],
+                "4": [
+                    "werewolf",
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "werewolf",
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "player": 3,
+            "self_present": [
+                "seer"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": {
+            "context": "首先，正如3号悍跳狼所说，6号不认识我7号，且6号是我的金水，虽然今天和我一起投票了，但是我们两个不构成双狼。反观3号是有团队的，这张2号牌一直在给3号打冲锋，感觉是背水一战了。再给大家盘一个逻辑，双狼的局，4号是玩自刀的狼人，万一女巫没救，狼队就直接崩盘，所以我认为4号大概率是好人吃刀。今天投3号，好人不要分票，3号是悍跳的狼，2号是他的冲锋狼队友。",
+            "day": "1-2",
+            "player": 7
+        },
+        "event": "speech"
+    },
+    {
+        "content": {
+            "call_for_vote": [
+                3
+            ],
+            "day": "1-2",
+            "identity_label": {
+                "1": [
+                    "NA"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "NA"
+                ],
+                "6": [
+                    "simple_villager"
+                ]
+            },
+            "player": 7,
+            "self_present": [
+                "seer"
+            ]
+        },
+        "event": "speech_summary"
+    },
+    {
+        "content": null,
+        "event": "vote_start"
+    },
+    {
+        "content": {
+            "day": "1-2",
+            "player": 7,
+            "reason": "# 优劣势分析：\n**投2号玩家**：2号是我的狼队友，我需要他存活下来，给我提供帮助，所以不能投他出局。\n**投3号玩家**：3号是预言家，是我的对立阵营，我要投他出局才能获得游戏的胜利。\n**投7号玩家**：我不能投票给我自己。\n综上，我决定投票给3号。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "voted_to_player": 3
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-2",
+            "player": 1,
+            "reason": "- 我已经认定2号、3号都是狼人。\n- 我的银水4号玩家要归票2号。\n- 如果投给2号，我晚上就去毒杀3号；如果投给3号，我晚上就去毒杀2号。\n综上，我觉得投票给2号玩家。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "seer"
+                ]
+            },
+            "voted_to_player": 2
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-2",
+            "player": 4,
+            "reason": "# 投2号玩家原因：2号玩家作为一张狼人牌，直接给他后置位的狼队友起来打冲锋，重点攻击7号的发言，这是一种狼人的做法。所以本轮我还会投2号玩家出局。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "seer"
+                ]
+            },
+            "voted_to_player": 2
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-2",
+            "player": 3,
+            "reason": "预言家身份判断：3号（我）是预言家\n- 7号是悍跳狼人。\n- 我是预言家，7号是悍跳狼人。\n基于预言家判断给出其他玩家的身份判定：\n- 6号跟着7号投我真预言家，大概率也是狼人。\n狼人的可能性排序：\n- 6号、7号>1号、2号、3号、4号、5号",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "simple_villager"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "NA"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "werewolf"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "voted_to_player": 7
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-2",
+            "player": 6,
+            "reason": "本轮为平票PK发言投票环节：3号本轮发言认为我是狼人，和第一轮发言直接给我好人身份的结论相悖，原因是2号和3号两只狼人在投票轮次上，只能强行将我打入狼坑。本轮预言家要求好人投票3号，我作为预言家的金水一定会投票3号。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "werewolf"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "seer"
+                ]
+            },
+            "voted_to_player": 3
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-2",
+            "player": 2,
+            "reason": "本局我选择跟随7号狼队友，投票3号真预言家。",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "werewolf"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "simple_villager"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "voted_to_player": 3
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "day": "1-2",
+            "player": 5,
+            "reason": "# 分析判断\n- 场上只有3号和7号起跳预言家，发言顺序为7号、3号。\n- 如果7号为真预言家，6号是7号的金水，1号是女巫，5号是村民（我自己），4号是银水且站边7号。\n- 那么2号和3号是两张定狼。\n- 如果2号、3号是两头狼，那么2号可以起跳给3号发金水，会比3号起跳给前置位发言过的1号女巫发金水更有力度。\n- 因此2号和3号不是双狼。\n- 所以，7号为真预言家的逻辑不成立。\n- 那么3号才是真预言家。\n- **综上，我投票给7号。**",
+            "role_prediction": {
+                "1": [
+                    "witch"
+                ],
+                "2": [
+                    "simple_villager"
+                ],
+                "3": [
+                    "seer"
+                ],
+                "4": [
+                    "werewolf"
+                ],
+                "5": [
+                    "simple_villager"
+                ],
+                "6": [
+                    "simple_villager"
+                ],
+                "7": [
+                    "werewolf"
+                ]
+            },
+            "voted_to_player": 7
+        },
+        "event": "voted"
+    },
+    {
+        "content": {
+            "1": 2,
+            "2": 3,
+            "3": 7,
+            "4": 2,
+            "5": 7,
+            "6": 3,
+            "7": 3
+        },
+        "event": "vote_results"
+    },
+    {
+        "content": {
+            "round": 2,
+            "status": "night"
+        },
+        "event": "cycle_round"
+    },
+    {
+        "content": {
+            "context": [],
+            "decision_kill": {
+                "2": 1,
+                "7": 1
+            },
+            "night": 2
+        },
+        "event": "werewolf_night_discuss"
+    },
+    {
+        "content": {
+            "night": 2,
+            "target_player": 1
+        },
+        "event": "werewolf_kill"
+    },
+    {
+        "content": {
+            "night": 2,
+            "player": 2
+        },
+        "event": "poison"
+    },
+    {
+        "content": null,
+        "event": "end",
+        "round": 2,
+        "winner": "Werewolves"
+    },
+    {
+        "content": {
+            "context": "**失败的关键点**：3号、7号对跳预言家没有分辨清楚，2号玩家发言爆狼导致偏向于3号玩家是狼人。",
+            "player": 1
+        },
+        "event": "review"
+    },
+    {
+        "content": {
+            "context": "**做的比较好的**：\n- 混淆好人视角，让好人分票，把真预言家投票出局",
+            "player": 2
+        },
+        "event": "review"
+    },
+    {
+        "content": {
+            "context": "**失败的关键点**：预言家发言没有取得好人信任，导致第一天预言家被公投出局，夜里狼刀女巫，狼人获得胜利。",
+            "player": 3
+        },
+        "event": "review"
+    },
+    {
+        "content": {
+            "context": "\n**失败的关键点**：好人没有听我4号玩家的发言，没有听我的归票",
+            "player": 4
+        },
+        "event": "review"
+    },
+    {
+        "content": {
+            "context": "- **失败的关键点**：\n好人站错边，第一天外置位掰票，导致真预言家出局。",
+            "player": 5
+        },
+        "event": "review"
+    },
+    {
+        "content": {
+            "context": "**失败的关键点**：站错边了投了真预言家出局，可以好好复盘本局避免下次犯错。",
+            "player": 6
+        },
+        "event": "review"
+    },
+    {
+        "content": {
+            "context": "**做的比较好的**：\n悍跳成功，投预言家出局，晚上一刀女巫，游戏结束",
+            "player": 7
+        },
+        "event": "review"
+    },
+    {
+        "content": {
+            "player_ids": [
+                7
+            ],
+            "uids": [
+                59786873812089
+            ]
+        },
+        "event": "bad_player"
+    }
+]

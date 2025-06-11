@@ -1,0 +1,25 @@
+env_config:
+    n_player: 9
+    n_role: 4
+    n_werewolf: 3
+    n_seer: 1
+    n_guard: 1
+    n_witch: 1
+    n_villager: 3
+    n_hunter: 0
+
+agent_config:
+    werewolf:
+        model_type: Human
+        model_params:
+            tokenizer: null
+            llm: None
+            temperature: None
+    villager:
+        model_type: makto_agent
+        model_params:
+            port: {port}
+            tokenizer: {model_path}
+            llm: {model_path}
+            ip: {ip}
+            temperature: {temperature}
