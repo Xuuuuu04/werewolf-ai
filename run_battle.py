@@ -134,6 +134,67 @@ def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_c
         raise NotImplementedError
 
 
+def define_agents_with_human_player(human_config, ai_config, env_config, args, assigned_roles):
+    """
+    定义包含单个人类玩家的智能体列表
+    human_config: 人类玩家配置
+    ai_config: AI模型配置
+    """
+    from werewolf.helper.console_ui import ConsoleUI
+    
+    env_param = {
+        "n_player": env_config["n_player"],
+        "n_role": env_config["n_role"]
+    }
+    
+    # 确定人类玩家编号
+    if 'player_id' in human_config and human_config['player_id']:
+        human_player_id = human_config['player_id'] - 1  # 转换为0-based索引
+    else:
+        # 随机分配
+        human_player_id = random.randint(0, len(assigned_roles) - 1)
+    
+    # 构建AI模型
+    ai_config["model_params"].update(env_param)
+    ai_model_type, ai_agent_param = agent_registry.build(
+        ai_config["model_type"], 
+        **ai_config["model_params"]
+    )
+    
+    # 构建人类玩家模型
+    human_model_type = "human"
+    human_param = {
+        "client": None,
+        "tokenizer": None,
+        "llm": None,
+        "temperature": 0
+    }
+    human_param.update(env_param)
+    _, human_agent_param = agent_registry.build(human_model_type, **human_param)
+    
+    # 创建智能体列表
+    agent_list = []
+    for i, role in enumerate(assigned_roles):
+        log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
+        
+        if i == human_player_id:
+            # 人类玩家
+            agent = agent_registry.build_agent(
+                human_model_type, i, human_agent_param, env_param, log_file
+            )
+            # 显示人类玩家信息
+            ConsoleUI.print_info(f"🎮 你将扮演 {i+1} 号玩家，身份是: {ConsoleUI.ICONS.get(role.lower(), '👤')} {role}")
+        else:
+            # AI玩家
+            agent = agent_registry.build_agent(
+                ai_model_type, i, ai_agent_param, env_param, log_file
+            )
+        
+        agent_list.append(agent)
+    
+    return agent_list
+
+
 def define_agents(agent_config, env_config, args, assgined_roles):
     env_param = {
         "n_player": env_config["n_player"],
@@ -166,6 +227,10 @@ def main_cli(args):
     parsed_yaml = yaml.safe_load(open(args.config))
     agent_config = parsed_yaml["agent_config"]
     env_config = parsed_yaml["env_config"]
+    
+    # 检查是否启用单个人类玩家模式
+    human_player_config = parsed_yaml.get("human_player", None)
+    
     parent_directory = os.path.dirname(args.log_save_path)
     if not os.path.exists(os.path.join(parent_directory, "config.yaml")):
         with open(os.path.join(parent_directory, "config.yaml"), "w") as f:
@@ -181,10 +246,18 @@ def main_cli(args):
     ConsoleUI.print_header("🎮 狼人杀游戏开始", icon='', color=ConsoleUI.COLORS['info'])
     print(f"{ConsoleUI.COLORS['info']}角色配置：{roles}{ConsoleUI.COLORS['info']}\n")
 
-
-    check_agent_config(agent_config)
-
-    agent_list = define_agents(agent_config, env_config, args, roles)
+    # 根据配置选择agent定义方式
+    if human_player_config and human_player_config.get("enabled", False):
+        # 单个人类玩家模式
+        ConsoleUI.print_info("🎮 模式：单人类玩家 + AI")
+        ai_model_config = agent_config.get("ai_model", agent_config.get("villager"))
+        agent_list = define_agents_with_human_player(
+            human_player_config, ai_model_config, env_config, args, roles
+        )
+    else:
+        # 传统阵营模式
+        check_agent_config(agent_config)
+        agent_list = define_agents(agent_config, env_config, args, roles)
     begin = time.time()
     result = eval(env, agent_list, roles)
     

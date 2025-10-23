@@ -1,0 +1,31 @@
+# 人类单玩家 + AI对战配置
+# 人类玩家控制指定的一个角色，其他所有角色由AI控制
+
+env_config:
+    n_player: 9
+    n_role: 5
+    n_werewolf: 3
+    n_seer: 1
+    n_guard: 1
+    n_witch: 1
+    n_villager: 3
+    n_hunter: 0
+
+# 人类玩家配置
+human_player:
+    enabled: true           # 是否启用人类玩家
+    player_id: 5            # 人类控制的玩家编号（1-9）
+    # 如果不指定player_id，则随机分配一个角色给人类
+
+# AI代理配置
+agent_config:
+    # 所有AI玩家使用相同的模型
+    ai_model:
+        model_type: qwen3-coder-plus
+        model_params:
+            tokenizer: null
+            llm: qwen3-coder-plus
+            temperature: 0.7
+            base_url: https://apis.iflow.cn/v1/chat/completions
+            api_key: sk-f3ee5353f375f45271fd55792e91564a
+
