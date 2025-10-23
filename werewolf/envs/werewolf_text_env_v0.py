@@ -477,11 +477,14 @@ class WerewolfTextEnvV0(gym.Env):
                     villager_count += 1
                 else:
                     god_count += 1
+        
+        # 好人阵营获胜：所有狼人被淘汰
         if wolf_count == 0:
             done = True
             reward = [-self.werewolf_reward if role == 'Werewolf' else self.village_reward for role in self.roles]
             info = {'Werewolf': -1}
-        elif villager_count == 0 or god_count == 0:
+        # 狼人阵营获胜：狼人数量 >= 好人数量（此时好人无法在白天投票淘汰狼人）
+        elif wolf_count >= (villager_count + god_count):
             done = True
             reward = [self.werewolf_reward if role == 'Werewolf' else -self.village_reward for role in self.roles]
             info = {'Werewolf': 1}
