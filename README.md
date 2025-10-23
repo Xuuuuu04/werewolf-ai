@@ -295,6 +295,11 @@ python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_pa
 - ✅ **已修复**：在 `start_game.py` 中添加了 `colorama` 导入
 - 解决方案：更新到最新版本或重新安装依赖
 
+**问题：`TypeError: HumanAgent.__init__() got an unexpected keyword argument 'debug'`**
+- ✅ **已修复**：为所有智能体添加了 `debug` 参数支持
+- 影响：人类单玩家模式无法启动
+- 解决方案：更新到最新版本
+
 **问题：配置文件中的debug设置不生效**
 - 检查配置文件语法是否正确
 - 使用 `--debug` 命令行参数覆盖配置
