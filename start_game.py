@@ -45,12 +45,60 @@ def print_menu():
     print(menu)
 
 
+def apply_debug_config(config_path, debug_mode):
+    """应用debug配置到配置文件"""
+    try:
+        import yaml
+
+        # 读取配置文件
+        with open(config_path, 'r', encoding='utf-8') as f:
+            config = yaml.safe_load(f)
+
+        # 更新所有agent的debug设置
+        if 'agent_config' in config:
+            for group_name, group_config in config['agent_config'].items():
+                if 'model_params' in group_config:
+                    config['agent_config'][group_name]['model_params']['debug'] = debug_mode
+
+        # 更新human_player模式下的AI配置
+        if 'human_player' in config and config['human_player'].get('enabled', False):
+            if 'agent_config' in config and 'ai_model' in config['agent_config']:
+                if 'model_params' in config['agent_config']['ai_model']:
+                    config['agent_config']['ai_model']['model_params']['debug'] = debug_mode
+
+        # 写回配置文件
+        with open(config_path, 'w', encoding='utf-8') as f:
+            yaml.dump(config, f, default_flow_style=False, allow_unicode=True)
+
+        if debug_mode:
+            print(f"\n{Fore.YELLOW}✅ 已启用调试模式，将显示API响应等详细信息{Style.RESET_ALL}")
+        else:
+            print(f"\n{Fore.GREEN}✅ 已隐藏调试信息，界面更加清爽{Style.RESET_ALL}")
+
+    except Exception as e:
+        print(f"\n{Fore.RED}❌ 应用debug配置失败: {e}{Style.RESET_ALL}")
+
+
+def configure_debug_mode():
+    """配置调试模式"""
+    print(f"\n{Fore.CYAN}🔧 调试模式配置{Style.RESET_ALL}")
+    print(f"{Fore.WHITE}是否显示API响应等调试信息？{Style.RESET_ALL}")
+    print(f"{Fore.LIGHTBLACK_EX}  0. ❌ 隐藏调试信息（推荐）{Style.RESET_ALL}")
+    print(f"{Fore.LIGHTBLACK_EX}  1. ✅ 显示调试信息{Style.RESET_ALL}")
+
+    while True:
+        choice = input(f"\n{Fore.YELLOW}➤ 请选择 (0-1): {Style.RESET_ALL}")
+        if choice in ['0', '1']:
+            return choice == '1'
+        print(f"{Fore.RED}❌ 无效选择，请输入 0 或 1{Style.RESET_ALL}")
+
+
 def get_available_configs():
     """获取可用的配置文件"""
     configs_dir = Path("configs")
     if not configs_dir.exists():
         return []
-    
+
     config_files = {
         "1": "qwen_vs_qwen.yaml",
         "2": "qwen_vs_gpt.yaml",
@@ -227,14 +275,14 @@ def main():
     while True:
         # 打印菜单
         print_menu()
-        
+
         # 获取用户选择
         choice = input("请输入选项 (0-9): ").strip()
-        
+
         if choice == "0":
             print("\n👋 感谢使用，再见！\n")
             break
-        
+
         elif choice == "8":
             # 查看游戏日志
             run_visualizer()
@@ -242,17 +290,23 @@ def main():
             os.system('cls' if os.name == 'nt' else 'clear')
             print_banner()
             continue
-        
+
         elif choice in available_configs:
             # 获取配置文件路径
             config_path = available_configs[choice]
-            
+
+            # 配置调试模式
+            debug_mode = configure_debug_mode()
+
             # 获取日志路径
             log_path = get_log_path()
-            
+
             # 获取游戏局数
             rounds = get_game_rounds()
-            
+
+            # 应用debug配置到配置文件
+            apply_debug_config(config_path, debug_mode)
+
             # 运行游戏
             run_game(config_path, log_path, rounds)
             

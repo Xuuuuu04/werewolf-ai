@@ -76,7 +76,7 @@ class Registry(BaseModel):
                     agent_param,
                     env_param,
                     log_file):
-        
+
         if type not in self.entries:
             raise ValueError(
                 f'{type} is not registered. Please register with the .register("{type}") method provided in {self.name} registry'
@@ -85,7 +85,8 @@ class Registry(BaseModel):
                                     tokenizer=agent_param["tokenizer"],
                                     llm=agent_param["llm"],
                                     temperature=agent_param["temperature"],
-                                    log_file=log_file)
+                                    log_file=log_file,
+                                    debug=agent_param.get("debug", False))
 
     def get_all_entries(self):
         return self.entries

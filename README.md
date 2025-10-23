@@ -69,6 +69,12 @@ python run_battle.py --config configs/qwen_vs_qwen.yaml --log_save_path ./logs/g
 
 # 人类 vs AI 模式
 python run_battle.py --config configs/human_vs_qwen.yaml --log_save_path ./logs/game_2
+
+# 显示调试信息
+python run_battle.py --config configs/qwen_vs_qwen.yaml --debug --log_save_path ./logs/debug_game
+
+# 隐藏调试信息（默认）
+python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_path ./logs/clean_game
 ```
 
 ## 🎮 游戏说明
@@ -247,6 +253,39 @@ agent_config:
             base_url: https://your-custom-api.com/v1/chat/completions
             api_key: your-custom-key
 ```
+
+## 🔧 调试模式
+
+### 隐藏调试信息（推荐）
+
+默认情况下，游戏会隐藏API响应、内部状态等调试信息，提供清爽的游戏界面。
+
+### 显示调试信息
+
+如果需要查看AI模型的API响应、内部决策过程等调试信息：
+
+**方式1：启动器交互配置**
+```bash
+python start_game.py
+# 启动后会询问是否显示调试信息
+```
+
+**方式2：命令行参数**
+```bash
+# 显示调试信息
+python run_battle.py --config configs/qwen_vs_qwen.yaml --debug --log_save_path ./logs/debug
+
+# 隐藏调试信息（默认）
+python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_path ./logs/clean
+```
+
+### 调试信息包括
+- 🔍 API响应类型和内容
+- 🎲 随机动作选择过程
+- 📝 详细的游戏状态信息
+- ⚠️ 错误和警告信息
+
+**提示：** 普通用户推荐使用 `--no-debug` 或默认设置，调试信息主要用于开发和问题排查。
 
 ## 📊 游戏日志
 

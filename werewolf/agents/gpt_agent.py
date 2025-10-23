@@ -13,12 +13,14 @@ class GPTAgent(LLMAgent):
                  tokenizer=None,
                  llm=None,
                  temperature=1.0,
-                 log_file=None):
+                 log_file=None,
+                 debug=False):
         super().__init__(client=client, tokenizer=tokenizer, llm=llm, temperature=temperature, log_file=log_file)
         self.client = client
         self.llm = llm
         self.rate_limit = 6
         self.temperature = temperature
+        self.debug = debug  # 控制是否显示调试信息
 
     def act(self, observation):
         prompt = self.format_observation(observation)
@@ -70,8 +72,9 @@ class GPTAgent(LLMAgent):
                         response = self.client.chat.completions.create(
                             model=self.llm, messages=messages, temperature=self.temperature
                         )
-                    print(f"🔍 API响应类型: {type(response)}")
-                    print(f"🔍 API响应内容: {response}")
+                    if self.debug:
+                        print(f"🔍 API响应类型: {type(response)}")
+                        print(f"🔍 API响应内容: {response}")
                     if hasattr(response, 'choices'):
                         raw_action = response.choices[0].message.content.strip().strip("- ")
                     else:
@@ -83,7 +86,8 @@ class GPTAgent(LLMAgent):
                         action = valid_action[random.randint(0, len(valid_action) - 1)]
             else:
                 action = valid_action[random.randint(0, len(valid_action) - 1)]
-                print("🎲 随机选择有效动作: {} | 可选动作: {}".format(action, valid_action))
+                if self.debug:
+                    print("🎲 随机选择有效动作: {} | 可选动作: {}".format(action, valid_action))
             env_action = self.nlp_action_to_env_action[action]
             if raw_action is None:
                 raw_action = action

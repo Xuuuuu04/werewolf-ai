@@ -141,26 +141,30 @@ def define_agents_with_human_player(human_config, ai_config, env_config, args, a
     ai_config: AI模型配置
     """
     from werewolf.helper.console_ui import ConsoleUI
-    
+
     env_param = {
         "n_player": env_config["n_player"],
         "n_role": env_config["n_role"]
     }
-    
+
     # 确定人类玩家编号
     if 'player_id' in human_config and human_config['player_id']:
         human_player_id = human_config['player_id'] - 1  # 转换为0-based索引
     else:
         # 随机分配
         human_player_id = random.randint(0, len(assigned_roles) - 1)
-    
+
     # 构建AI模型
     ai_config["model_params"].update(env_param)
+    # 添加debug参数
+    debug_mode = ai_config["model_params"].get("debug", False)
+    ai_config["model_params"]["debug"] = debug_mode
+
     ai_model_type, ai_agent_param = agent_registry.build(
-        ai_config["model_type"], 
+        ai_config["model_type"],
         **ai_config["model_params"]
     )
-    
+
     # 构建人类玩家模型
     human_model_type = "human"
     human_param = {
@@ -171,12 +175,12 @@ def define_agents_with_human_player(human_config, ai_config, env_config, args, a
     }
     human_param.update(env_param)
     _, human_agent_param = agent_registry.build(human_model_type, **human_param)
-    
+
     # 创建智能体列表
     agent_list = []
     for i, role in enumerate(assigned_roles):
         log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
-        
+
         if i == human_player_id:
             # 人类玩家
             agent = agent_registry.build_agent(
@@ -189,9 +193,9 @@ def define_agents_with_human_player(human_config, ai_config, env_config, args, a
             agent = agent_registry.build_agent(
                 ai_model_type, i, ai_agent_param, env_param, log_file
             )
-        
+
         agent_list.append(agent)
-    
+
     return agent_list
 
 
@@ -200,9 +204,13 @@ def define_agents(agent_config, env_config, args, assgined_roles):
         "n_player": env_config["n_player"],
         "n_role": env_config["n_role"]
     }
-    all_agent_models = {} 
-    for group in agent_config.keys(): 
+    all_agent_models = {}
+    for group in agent_config.keys():
         agent_config[group]["model_params"].update(env_param)
+        # 添加debug参数支持（默认隐藏调试信息）
+        debug_mode = agent_config[group]["model_params"].get("debug", False)
+        agent_config[group]["model_params"]["debug"] = debug_mode
+
         model_type = agent_config[group]["model_type"]
         if model_type not in [i[0] for g,i in all_agent_models.items()]:
             all_agent_models[group] = agent_registry.build(model_type, **agent_config[group]["model_params"])
@@ -273,5 +281,43 @@ if __name__ == '__main__':
                            type=str, default="configs/gpt4_vs_gpt4.yaml",
                            help="path to the config file of the game")
     argparser.add_argument('--log_save_path', type=str, default=None)
+    argparser.add_argument('--debug',
+                           action='store_true',
+                           help="show debug information (API responses, etc.)")
+    argparser.add_argument('--no-debug',
+                           action='store_true',
+                           help="hide debug information (default)")
     args = argparser.parse_args()
+
+    # 如果同时设置了--debug和--no-debug，--debug优先
+    if args.debug and args.no_debug:
+        args.debug = True
+        args.no_debug = False
+
+    # 应用debug设置到配置文件
+    if args.config and (args.debug or args.no_debug):
+        try:
+            import yaml
+            with open(args.config, 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+
+            # 更新所有agent的debug设置
+            if 'agent_config' in config:
+                for group_name, group_config in config['agent_config'].items():
+                    if 'model_params' in group_config:
+                        config['agent_config'][group_name]['model_params']['debug'] = args.debug
+
+            # 更新human_player模式下的AI配置
+            if 'human_player' in config and config['human_player'].get('enabled', False):
+                if 'agent_config' in config and 'ai_model' in config['agent_config']:
+                    if 'model_params' in config['agent_config']['ai_model']:
+                        config['agent_config']['ai_model']['model_params']['debug'] = args.debug
+
+            # 写回配置文件
+            with open(args.config, 'w', encoding='utf-8') as f:
+                yaml.dump(config, f, default_flow_style=False, allow_unicode=True)
+
+        except Exception as e:
+            print(f"Warning: Failed to update debug config: {e}")
+
     main_cli(args)
