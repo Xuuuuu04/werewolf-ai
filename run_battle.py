@@ -13,10 +13,23 @@ def eval(env, agent_list, roles_):
         agent.reset()
     done = False
     obs = env.reset(roles=roles_)
+
+    # 显示初始状态
+    display_current_state(env, obs)
+
     while not done:
         current_act_idx = obs['current_act_idx']
         action = agent_list[current_act_idx - 1].act(obs)
+
+        # 执行动作并立即显示更新
         obs, reward, done, info = env.step(action)
+        display_current_state(env, obs)
+
+        # 如果是人类玩家，等待用户输入后继续
+        if hasattr(agent_list[current_act_idx - 1], 'debug') and agent_list[current_act_idx - 1].debug:
+            if 'human' in str(type(agent_list[current_act_idx - 1])).lower():
+                input("\n按回车键继续...")
+
     if done:
         if info['Werewolf'] == 1:
             ConsoleUI.print_game_result('🐺 狼人阵营获胜！', is_win=False)
@@ -24,6 +37,83 @@ def eval(env, agent_list, roles_):
         elif info['Werewolf'] == -1:
             ConsoleUI.print_game_result('👥 村民阵营获胜！', is_win=True)
             return '👥 村民获胜'
+
+
+def display_current_state(env, obs):
+    """实时显示当前游戏状态"""
+    from werewolf.helper.console_ui import ConsoleUI
+
+    # 获取当前游戏日志并格式化显示
+    log_text = format_game_log(env.game_log)
+
+    # 清屏并显示当前状态
+    ConsoleUI.clear_screen()
+    ConsoleUI.print_header(f"🎮 {ConsoleUI.get_phase_text(obs['phase'])}", color=ConsoleUI.COLORS['info'])
+
+    # 显示玩家信息
+    if 'current_act_idx' in obs and obs['current_act_idx']:
+        ConsoleUI.print_player_info(obs['current_act_idx'], obs['identity'], obs['phase'])
+
+    # 显示游戏日志
+    ConsoleUI.print_section("📜 实时游戏日志", color=ConsoleUI.COLORS['info'])
+    ConsoleUI.print_game_log(log_text, obs.get('current_act_idx'))
+
+    # 如果是投票或发言阶段，显示提示
+    if 'speech' in obs['phase']:
+        ConsoleUI.print_tips([
+            "观察其他玩家的发言",
+            "分析逻辑和可信度",
+            "准备自己的发言策略"
+        ])
+    elif 'vote' in obs['phase']:
+        ConsoleUI.print_tips([
+            "分析所有发言内容",
+            "注意归票避免平票",
+            "重点关注可疑玩家"
+        ])
+
+
+def format_game_log(game_log):
+    """格式化游戏日志为可读文本"""
+    formatted_lines = []
+
+    for log in game_log:
+        if hasattr(log, 'content') and log.content:
+            # 格式化不同类型的日志
+            if '猎杀目标' in log.content:
+                formatted_lines.append(f"{log.source}号是狼人，他在第{log.day}天夜晚准备猎杀{log.content['猎杀目标']}号。")
+            elif '猎杀决定' in log.content:
+                formatted_lines.append(f"狼人队伍在第{log.day}天夜晚猎杀了{log.content['猎杀决定']}号。")
+            elif '死亡名单' in log.content:
+                dead_players = ', '.join(map(str, log.content['死亡名单']))
+                formatted_lines.append(f"第{log.day}天夜晚死亡的玩家是{dead_players}。")
+            elif '查验结果' in log.content:
+                result = '狼人' if log.content['查验结果'] == 'bad' else '好人'
+                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚查验了{log.target}号的身份，结果为{result}。")
+            elif '保护目标' in log.content:
+                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚守护了{log.content['保护目标']}号。")
+            elif '解药目标' in log.content:
+                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚对{log.content['解药目标']}号使用了救药。")
+            elif '毒药目标' in log.content:
+                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚对{log.content['毒药目标']}号使用了毒药。")
+            elif '射杀目标' in log.content:
+                formatted_lines.append(f"{log.source}号被投票出局时射杀了{log.content['射杀目标']}号。")
+            elif '发言内容' in log.content:
+                formatted_lines.append(f"{log.source}号在第{log.day}天白天发言内容：{log.content['发言内容']}。")
+            elif '投票目标' in log.content:
+                target = '弃票' if log.content['投票目标'] == -1 else f"{log.content['投票目标']}号"
+                formatted_lines.append(f"{log.source}号在第{log.day}天白天投票给{target}。")
+            elif '投票结果' in log.content:
+                if log.content['投票结果'] == '全员弃票':
+                    formatted_lines.append(f"第{log.day}天白天投票结果：全员弃票。")
+                elif log.content['投票结果'] == '平票':
+                    formatted_lines.append(f"第{log.day}天白天投票结果：平票。")
+                elif isinstance(log.content['投票结果'], int):
+                    formatted_lines.append(f"第{log.day}天白天通过投票驱逐了{log.content['投票结果']}号。")
+                elif '被放逐玩家' in log.content:
+                    formatted_lines.append(f"第{log.day}天白天通过投票驱逐了{log.content['被放逐玩家']}号。")
+
+    return '\n'.join(formatted_lines)
 
 def get_replaced_wolf_id(replace_players, assgined_roles):
     replace_type = replace_players.split("_")[1]

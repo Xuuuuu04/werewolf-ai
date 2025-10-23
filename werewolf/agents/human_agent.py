@@ -26,14 +26,11 @@ class HumanAgent(LLMAgent):
         valid_action = list(self.nlp_action_to_env_action.keys()) 
         time.sleep(self.rate_limit)
         if 'speech' in phase:
-            # 发言阶段 - 使用美化界面
-            ConsoleUI.print_header("💬 发言阶段", icon='', color=ConsoleUI.COLORS['speech'])
-            ConsoleUI.print_player_info(observation["current_act_idx"], observation["identity"], phase)
-            
-            # 打印游戏日志
-            ConsoleUI.print_section("📜 游戏日志", color=ConsoleUI.COLORS['info'])
-            ConsoleUI.print_game_log(prompt)
-            
+            # 发言阶段 - 只显示操作界面，不重复显示游戏状态
+            print(f"\n{ConsoleUI.COLORS['speech']}{'═' * 70}{Style.RESET_ALL}")
+            print(f"{ConsoleUI.ICONS['speech']} {ConsoleUI.COLORS['speech']}你的发言回合{Style.RESET_ALL}")
+            print(f"{ConsoleUI.COLORS['speech']}{'═' * 70}{Style.RESET_ALL}")
+
             # 提示信息
             ConsoleUI.print_tips([
                 "你可以分享查验信息（金水/查杀）",
@@ -41,7 +38,7 @@ class HumanAgent(LLMAgent):
                 "可以分析局势进行站边",
                 "可以归票推出狼人"
             ])
-            
+
             raw_action = ConsoleUI.print_input_prompt("请输入你的发言内容")
             env_action = ('speech', raw_action)
             ConsoleUI.print_success(f'你的发言已记录："{raw_action}"')
@@ -56,20 +53,17 @@ class HumanAgent(LLMAgent):
                                         "phase": phase,
                                         "gen_times": 0})
         else:
-            # 动作阶段 - 使用美化界面
+            # 动作阶段 - 只显示操作界面，不重复显示游戏状态
             phase_icon = '🌙' if 'night' in phase else '☀️' if 'day' in phase else '🎮'
             phase_color = ConsoleUI.COLORS['night'] if 'night' in phase else ConsoleUI.COLORS['vote']
-            
-            ConsoleUI.print_header(f"{phase_icon} {ConsoleUI.get_phase_text(phase)}", color=phase_color)
-            ConsoleUI.print_player_info(observation["current_act_idx"], observation["identity"], phase)
-            
-            # 打印游戏日志
-            ConsoleUI.print_section("📜 游戏日志", color=ConsoleUI.COLORS['info'])
-            ConsoleUI.print_game_log(prompt)
-            
+
+            print(f"\n{phase_color}{'═' * 70}{Style.RESET_ALL}")
+            print(f"{phase_icon} {phase_color}你的行动回合{Style.RESET_ALL}")
+            print(f"{phase_color}{'═' * 70}{Style.RESET_ALL}")
+
             # 打印可选动作
             ConsoleUI.print_action_list(valid_action, title="可选动作")
-            
+
             # 根据阶段给出提示
             tips = []
             if 'wolf' in phase:
@@ -82,14 +76,14 @@ class HumanAgent(LLMAgent):
                 tips = ["判断是否使用解药救人", "毒药用于确认的狼人", "注意狼人可能自刀"]
             elif 'guard' in phase:
                 tips = ["守护重要神职", "注意不能连续守护同一人"]
-            
+
             if tips:
                 ConsoleUI.print_tips(tips)
-            
+
             user_input = ConsoleUI.print_input_prompt(
                 f'请输入动作编号 (0-{len(valid_action)-1}) 或完整动作字符串'
             )
-            
+
             # 支持输入索引或完整字符串
             try:
                 action_idx = int(user_input)
@@ -109,7 +103,7 @@ class HumanAgent(LLMAgent):
                     ConsoleUI.print_error('输入无效，自动选择第一个动作')
                     raw_action = valid_action[0]
                     action = raw_action
-            
+
             env_action = self.nlp_action_to_env_action[action]
             ConsoleUI.print_success(f'你选择的动作是: {action}')
             if self.has_log:

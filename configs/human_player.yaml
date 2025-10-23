@@ -3,7 +3,7 @@ agent_config:
     model_params:
       api_key: sk-f3ee5353f375f45271fd55792e91564a
       base_url: https://apis.iflow.cn/v1/chat/completions
-      debug: true
+      debug: false
       llm: qwen3-coder-plus
       temperature: 0.7
       tokenizer: null

@@ -8,6 +8,7 @@
 from colorama import init, Fore, Back, Style
 import os
 import sys
+import re
 
 # 初始化colorama（Windows兼容）
 init(autoreset=True)
@@ -16,22 +17,34 @@ init(autoreset=True)
 class ConsoleUI:
     """控制台UI美化类"""
     
-    # 颜色主题
+    # 颜色主题 - 每个玩家固定颜色
+    PLAYER_COLORS = [
+        Fore.RED,          # 玩家1 - 红色
+        Fore.GREEN,        # 玩家2 - 绿色
+        Fore.YELLOW,       # 玩家3 - 黄色
+        Fore.BLUE,         # 玩家4 - 蓝色
+        Fore.MAGENTA,      # 玩家5 - 洋红色
+        Fore.CYAN,         # 玩家6 - 青色
+        Fore.WHITE,        # 玩家7 - 白色
+        Fore.LIGHTRED_EX,  # 玩家8 - 亮红色
+        Fore.LIGHTGREEN_EX, # 玩家9 - 亮绿色
+    ]
+
+    # 角色颜色（用于身份显示）
     COLORS = {
-        # 角色颜色
         'Werewolf': Fore.RED,           # 狼人-红色
         'Seer': Fore.CYAN,               # 预言家-青色
         'Witch': Fore.MAGENTA,           # 女巫-洋红色
         'Guard': Fore.BLUE,              # 守卫-蓝色
         'Hunter': Fore.GREEN,            # 猎人-绿色
         'Villager': Fore.WHITE,          # 村民-白色
-        
+
         # 阶段颜色
         'night': Fore.BLUE,              # 夜晚-蓝色
         'day': Fore.YELLOW,              # 白天-黄色
         'vote': Fore.CYAN,               # 投票-青色
         'speech': Fore.GREEN,            # 发言-绿色
-        
+
         # 状态颜色
         'success': Fore.GREEN,           # 成功-绿色
         'warning': Fore.YELLOW,          # 警告-黄色
@@ -138,17 +151,23 @@ class ConsoleUI:
         print(f"{Fore.LIGHTCYAN_EX}{'═' * 70}{Style.RESET_ALL}\n")
     
     @classmethod
-    def print_game_log(cls, log_text):
+    def print_game_log(cls, log_text, current_player_id=None):
         """打印游戏日志"""
         print(f"{Fore.LIGHTBLACK_EX}{'┄' * 70}{Style.RESET_ALL}")
-        
+
         # 高亮特殊信息
         for line in log_text.split('\n'):
             if not line.strip():
                 continue
-            
+
+            # 检查是否是玩家发言（格式：X号在第Y天白天发言内容：...）
+            player_match = re.search(r'(\d+)号.*发言内容：', line)
+            if player_match:
+                player_id = int(player_match.group(1))
+                player_color = cls.get_player_color(player_id)
+                print(f"  {player_color}{line}{Style.RESET_ALL}")
             # 根据内容高亮
-            if any(keyword in line for keyword in ['死亡', '出局', '被杀']):
+            elif any(keyword in line for keyword in ['死亡', '出局', '被杀']):
                 print(f"{cls.ICONS['death']} {Fore.RED}{line}{Style.RESET_ALL}")
             elif any(keyword in line for keyword in ['预言家', '查验', '金水', '查杀']):
                 print(f"{cls.ICONS['seer']} {Fore.CYAN}{line}{Style.RESET_ALL}")
@@ -164,7 +183,7 @@ class ConsoleUI:
                 print(f"{cls.ICONS['speech']} {Fore.GREEN}{line}{Style.RESET_ALL}")
             else:
                 print(f"  {Fore.WHITE}{line}{Style.RESET_ALL}")
-        
+
         print(f"{Fore.LIGHTBLACK_EX}{'┄' * 70}{Style.RESET_ALL}\n")
     
     @classmethod
@@ -206,6 +225,13 @@ class ConsoleUI:
         print(f"{color}{'═' * 70}{Style.RESET_ALL}\n")
     
     @classmethod
+    def get_player_color(cls, player_id):
+        """根据玩家编号获取固定颜色"""
+        if 1 <= player_id <= len(cls.PLAYER_COLORS):
+            return cls.PLAYER_COLORS[player_id - 1]
+        return Fore.WHITE  # 默认白色
+
+    @classmethod
     def get_phase_text(cls, phase):
         """获取阶段文本"""
         phase_map = {
@@ -218,11 +244,11 @@ class ConsoleUI:
             'speech': '💬 发言阶段',
             'vote': '🗳️ 投票阶段',
         }
-        
+
         for key, value in phase_map.items():
             if key in phase:
                 return value
-        
+
         return phase
     
     @classmethod
