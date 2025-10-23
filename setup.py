@@ -10,19 +10,15 @@ setup(
         'werewolf',
     ],
     install_requires=[
-        'gradio==5.9.1',
-        'grpcio==1.68.0',
-        'gym==0.26.2',
+        'colorama>=0.4.6',      # 控制台彩色输出
+        'gymnasium>=0.29.0',     # 替代gym
         'numpy>=1.18.0,<2.0.0',  
-        'openai==1.59.3',
-        'protobuf==3.20.3',
-        'pydantic==2.10.4',
-        'PyYAML==6.0.2',
-        'setuptools==65.7.0',
-        'tenacity==9.0.0',
-        'tiktoken==0.7.0',
-        'torch==2.4.0',  
-        'transformers==4.47.1',
-        'vllm==0.6.3.post1'
+        'openai>=1.50.0',
+        'pydantic>=2.0.0',
+        'PyYAML>=6.0',
+        'tenacity>=8.0.0',
+        'tiktoken>=0.5.0',
+        'torch>=2.0.0',  
+        'transformers>=4.30.0'
     ],
 )

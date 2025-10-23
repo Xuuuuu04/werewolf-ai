@@ -1,5 +1,6 @@
 import random
 from werewolf.envs.werewolf_text_env_v0 import WerewolfTextEnvV0
+from werewolf.helper.console_ui import ConsoleUI
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import time
 import argparse
@@ -19,8 +20,10 @@ def eval(env, agent_list, roles_):
         obs, reward, done, info = env.step(action)
     if done:
         if info['Werewolf'] == 1:
+            ConsoleUI.print_game_result('🐺 狼人阵营获胜！', is_win=False)
             return '🐺 狼人获胜'
         elif info['Werewolf'] == -1:
+            ConsoleUI.print_game_result('👥 村民阵营获胜！', is_win=True)
             return '👥 村民获胜'
 
 def get_replaced_wolf_id(replace_players, assgined_roles):
@@ -173,7 +176,10 @@ def main_cli(args):
             ["Seer"] * env_config["n_seer"] + ["Witch"] * env_config["n_witch"] + \
             ["Guard"] * env_config["n_guard"] + ["Hunter"] * env_config["n_hunter"]
     random.shuffle(roles)
-    print("🎮 新游戏开始，角色分配: ", roles)
+    
+    # 美化游戏开始提示
+    ConsoleUI.print_header("🎮 狼人杀游戏开始", icon='', color=ConsoleUI.COLORS['info'])
+    print(f"{ConsoleUI.COLORS['info']}角色配置：{roles}{ConsoleUI.COLORS['info']}\n")
 
 
     check_agent_config(agent_config)
@@ -181,7 +187,11 @@ def main_cli(args):
     agent_list = define_agents(agent_config, env_config, args, roles)
     begin = time.time()
     result = eval(env, agent_list, roles)
-    print("⏱️ 游戏耗时: {:.2f}秒 | 🏆 结果: {}".format(time.time() - begin, result))
+    
+    # 美化游戏结束提示
+    elapsed_time = time.time() - begin
+    ConsoleUI.print_info(f"⏱️ 游戏耗时: {elapsed_time:.2f}秒")
+    ConsoleUI.print_info(f"🏆 游戏结果: {result}")
 
 
 if __name__ == '__main__':
