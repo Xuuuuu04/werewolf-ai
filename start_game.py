@@ -8,6 +8,10 @@
 import os
 import sys
 import subprocess
+from colorama import init, Fore, Style
+
+# 初始化colorama
+init(autoreset=True)
 from pathlib import Path
 
 
