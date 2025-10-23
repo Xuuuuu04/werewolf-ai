@@ -9,12 +9,14 @@ class LLMAgent(Agent):
                  tokenizer=None,
                  llm=None,
                  temperature=1.0,
-                 log_file=None):
-        self.client = client 
+                 log_file=None,
+                 debug=False):
+        self.client = client
         self.tokenizer = tokenizer
         self.llm = llm
         self.nlp_action_to_env_action = {}
         self.temperature = temperature
+        self.debug = debug  # 控制是否显示调试信息
         if log_file is not None:
             self.has_log = True
             self.handler = logging.FileHandler(log_file)

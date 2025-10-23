@@ -1,7 +1,6 @@
 import random
 from werewolf.envs.werewolf_text_env_v0 import WerewolfTextEnvV0
 from werewolf.helper.console_ui import ConsoleUI
-from transformers import AutoTokenizer, AutoModelForCausalLM
 import time
 import argparse
 import os
@@ -174,6 +173,10 @@ def define_agents_with_human_player(human_config, ai_config, env_config, args, a
         "temperature": 0
     }
     human_param.update(env_param)
+    # 添加debug参数
+    debug_mode = human_param.get("debug", False)
+    human_param["debug"] = debug_mode
+
     _, human_agent_param = agent_registry.build(human_model_type, **human_param)
 
     # 创建智能体列表
@@ -219,6 +222,15 @@ def define_agents(agent_config, env_config, args, assgined_roles):
                 if model_type == i[0]:
                     all_agent_models[group] = model_type, i[1]
                     break
+
+    # 确保env_param中也有debug参数
+    # 从第一个有效的agent组获取debug设置
+    env_param["debug"] = False
+    for group in agent_config.keys():
+        if "model_params" in agent_config[group]:
+            env_param["debug"] = agent_config[group]["model_params"].get("debug", False)
+            break
+
     return assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_config)
 
 

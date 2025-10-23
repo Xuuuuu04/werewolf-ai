@@ -11,12 +11,14 @@ class HumanAgent(LLMAgent):
                  tokenizer=None,
                  llm=None,
                  temperature=1.0,
-                 log_file=None):
+                 log_file=None,
+                 debug=False):
         super().__init__(client=client, tokenizer=tokenizer, llm=llm, temperature=temperature, log_file=log_file)
         self.client = client
         self.llm = llm
         self.rate_limit = 6
         self.temperature = temperature
+        self.debug = debug  # 控制是否显示调试信息
 
     def act(self, observation):
         prompt=self.format_observation(observation)
