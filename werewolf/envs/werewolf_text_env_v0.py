@@ -2,7 +2,7 @@ import random
 from copy import deepcopy
 import json, os
 import numpy as np
-import gym
+import gymnasium as gym
 from collections import Counter
 import json
 
@@ -124,7 +124,7 @@ class WerewolfTextEnvV0(gym.Env):
                 self.get_phase(self.day, self.day_or_night, self.phase)] = action_content
             self.game_log.append(
                 Log(viewer=[idx for idx in self.WOLF_IDX], source=self.current_act_idx, target=action_content,
-                    content={'kill_target': action_content},
+                    content={'猎杀目标': action_content},
                     day=self.day, time=self.get_time(), event=self.phase))
 
             tmp_idx = self.WOLF_IDX.index(self.current_act_idx)
@@ -148,8 +148,9 @@ class WerewolfTextEnvV0(gym.Env):
                     else:
                         wolf_kill_idx = most_count[0]
                 self.werewolf_kill_decision[self.get_phase(self.day, self.day_or_night, self.phase)] = wolf_kill_idx
-                self.game_log.append(Log(viewer=self.WOLF_IDX + ([self.WITCH_IDX] if self.WITCH_IDX != -1 else []), source=-1, target=wolf_kill_idx,
-                                         content={'kill_decision': wolf_kill_idx}, day=self.day,
+                self.game_log.append(
+                    Log(viewer=self.WOLF_IDX + ([self.WITCH_IDX] if self.WITCH_IDX != -1 else []), source=-1, target=wolf_kill_idx,
+                                         content={'猎杀决定': wolf_kill_idx}, day=self.day,
                                          time=self.get_time(),
                                          event='kill_decision'))
 
@@ -173,7 +174,7 @@ class WerewolfTextEnvV0(gym.Env):
                 checked_identity = 'bad' if self.roles[action_content] == 'Werewolf' else 'good'
             self.game_log.append(
                 Log(viewer=[self.SEER_IDX, ], source=self.current_act_idx, target=action_content,
-                    content={'cheked_identity': checked_identity},
+                    content={'查验结果': checked_identity},
                     day=self.day, time=self.get_time(), event=self.phase))
             if self.GUARD_IDX != -1 and self.alive[self.GUARD_IDX] == 1:
                 self.current_act_idx = self.GUARD_IDX
@@ -189,7 +190,7 @@ class WerewolfTextEnvV0(gym.Env):
             self.guard_target[self.get_phase(self.day, self.day_or_night, self.phase)] = action_content
             self.game_log.append(
                 Log(viewer=[self.GUARD_IDX, ], source=self.current_act_idx, target=action_content,
-                    content={'protected': action_content}, day=self.day,
+                    content={'保护目标': action_content}, day=self.day,
                     time=self.get_time(), event=self.phase))
             if self.WITCH_IDX != -1 and self.alive[self.WITCH_IDX] == 1:
                 self.current_act_idx = self.WITCH_IDX
@@ -204,19 +205,19 @@ class WerewolfTextEnvV0(gym.Env):
                 self.witch_heal_target[self.get_phase(self.day, self.day_or_night, self.phase)] = action_content
                 self.game_log.append(
                     Log(viewer=[self.WITCH_IDX, ], source=self.current_act_idx, target=action_content,
-                        content={'heal': action_content}, day=self.day,
+                        content={'解药目标': action_content}, day=self.day,
                         time=self.get_time(), event=self.phase))
             elif action_type == 'witch_poison':
                 assert action_content != -1
                 self.witch_poison_target[self.get_phase(self.day, self.day_or_night, self.phase)] = action_content
                 self.game_log.append(
                     Log(viewer=[self.WITCH_IDX, ], source=self.current_act_idx, target=action_content,
-                        content={'poison': action_content}, day=self.day,
+                        content={'毒药目标': action_content}, day=self.day,
                         time=self.get_time(), event=self.phase))
             elif action_type == 'witch_pass':
                 self.game_log.append(
                     Log(viewer=[self.WITCH_IDX, ], source=self.current_act_idx, target=-1,
-                        content={'pass': -1}, day=self.day,
+                        content={'放弃行动': -1}, day=self.day,
                         time=self.get_time(), event=self.phase))
             else:
                 raise ValueError
@@ -232,7 +233,7 @@ class WerewolfTextEnvV0(gym.Env):
                 self.alive[action_content] = 0
                 self.game_log.append(
                     Log(viewer=[i for i in range(self.n_player)], source=self.current_act_idx, target=action_content,
-                        content={'shoot': action_content}, day=self.day,
+                        content={'射杀目标': action_content}, day=self.day,
                         time=self.get_time(), event=self.phase))
 
             if self.hunter_in_night:
@@ -258,7 +259,7 @@ class WerewolfTextEnvV0(gym.Env):
             self.game_log.append(
                 Log(viewer=[i for i in range(self.n_player)], source=self.current_act_idx,
                     target=[i for i in range(self.n_player)],
-                    content={'speech_content': action_content}, day=self.day,
+                    content={'发言内容': action_content}, day=self.day,
                     time=self.get_time(), event=self.phase))
             if len(self.speech_queue) > 0:
                 self.current_act_idx = self.speech_queue.pop(0)
@@ -276,7 +277,7 @@ class WerewolfTextEnvV0(gym.Env):
             self.game_log.append(
                 Log(viewer=[-1,], source=self.current_act_idx,
                     target=action_content,
-                    content={'vote_target': action_content}, day=self.day,
+                    content={'投票目标': action_content}, day=self.day,
                     time=self.get_time(), event=self.phase))
             self.vote_target[self.current_act_idx][
                 self.get_phase(self.day, self.day_or_night, self.phase)] = action_content
@@ -289,8 +290,8 @@ class WerewolfTextEnvV0(gym.Env):
 
         if done:
             self.phase = 'end_game'
-            self.game_log.append(Log(viewer=[idx for idx in range(self.n_player)], source=-1, target=-1,
-                                     content={'outcome': info['Werewolf']}, day=self.day, time=self.get_time(),
+            self.game_log.append(Log(viewer=[i for i in range(self.n_player)], source=-1, target=-1,
+                                     content={'游戏结果': '狼人获胜' if info['Werewolf'] == 1 else '村民获胜'}, day=self.day, time=self.get_time(),
                                      event=self.phase))
             if self.log_save_path is not None:
                 if not os.path.exists(self.log_save_path):
@@ -336,7 +337,7 @@ class WerewolfTextEnvV0(gym.Env):
 
         self.game_log.append(
             Log(viewer=[i for i in range(self.n_player)], source=-1, target=list(dead_idx),
-                content={'dead_list': list(dead_idx)}, day=self.day,
+                content={'死亡名单': list(dead_idx)}, day=self.day,
                 time=self.get_time(), event='end_night'))
 
         self.day += 1
@@ -373,7 +374,7 @@ class WerewolfTextEnvV0(gym.Env):
             if len(vote_candidate_counter) == 0:
                 expelled_target = -1
                 self.game_log.append(Log(viewer=[idx for idx in range(self.n_player)], source=-1, target=-1,
-                                         content={'vote_outcome': 'all abstention'}, day=self.day,
+                                         content={'投票结果': '全员弃票'}, day=self.day,
                                          time=self.get_time(),
                                          event='end_vote'))
             else:
@@ -399,7 +400,7 @@ class WerewolfTextEnvV0(gym.Env):
                     self.vote_pk_players = deepcopy(self.speech_queue)
 
                     self.game_log.append(Log([idx for idx in range(self.n_player)], source=-1, target=-1,
-                                             content={'vote_outcome': 'draw',
+                                             content={'投票结果': '平票',
                                                       'speech_queue': deepcopy(
                                                           self.speech_queue),
                                                       'vote_queue': deepcopy(
@@ -421,7 +422,7 @@ class WerewolfTextEnvV0(gym.Env):
             if len(vote_pk_candidate_counter) == 0:
                 expelled_target = -1
                 self.game_log.append(Log(viewer=[idx for idx in range(self.n_player)], source=-1, target=-1,
-                                         content={'vote_outcome': 'all abstention in pk'}, day=self.day,
+                                         content={'投票结果': 'PK阶段全员弃票'}, day=self.day,
                                          time=self.get_time(),
                                          event='end_vote'))
             else:
@@ -429,7 +430,7 @@ class WerewolfTextEnvV0(gym.Env):
                 if list(vote_pk_candidate_counter.values()).count(most_count[1]) > 1:
                     expelled_target = -1
                     self.game_log.append(Log(viewer=[idx for idx in range(self.n_player)], source=-1, target=-1,
-                                             content={'vote_outcome': 'draw in pk'},
+                                             content={'投票结果': 'PK阶段平票'},
                                              day=self.day, time=self.get_time(),
                                              event='end_vote'))
                 else:
@@ -444,8 +445,8 @@ class WerewolfTextEnvV0(gym.Env):
             self.game_log.append(
                 Log(viewer=[i for i in range(self.n_player)], source=-1,
                     target=expelled_target,
-                    content={'vote_outcome': expelled_target,
-                             'expelled': expelled_target}, day=self.day,
+                    content={'投票结果': expelled_target,
+                             '被放逐玩家': expelled_target}, day=self.day,
                     time=self.get_time(), event='end_vote'))
 
         if expelled_target == self.HUNTER_IDX and self.HUNTER_IDX != -1:

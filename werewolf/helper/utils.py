@@ -5,20 +5,21 @@ import openai
 import tiktoken
 import subprocess
 
+# 支持自定义API端点，如果没有设置环境变量则使用默认值
 try:
     azure_endpoint = os.environ['AZURE_OPENAI_API_BASE']
 except KeyError:
-    raise EnvironmentError("Environment variable AZURE_OPENAI_API_BASE is not set.")
+    azure_endpoint = "https://api.openai.com/v1"  # 默认使用OpenAI API
 
 try:
     api_version = os.environ['AZURE_OPENAI_API_VERSION']
 except KeyError:
-    raise EnvironmentError("Environment variable AZURE_OPENAI_API_VERSION is not set.")
+    api_version = "2024-02-15-preview"  # 默认版本
 
 try:
     api_key = os.environ['AZURE_OPENAI_API_KEY']
 except KeyError:
-    raise EnvironmentError("Environment variable AZURE_OPENAI_API_KEY is not set.")
+    api_key = "dummy_key"  # 默认密钥，实际使用时会被替换
 
 client = openai.AzureOpenAI(
     azure_endpoint=azure_endpoint,

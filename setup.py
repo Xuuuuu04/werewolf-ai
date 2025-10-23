@@ -13,7 +13,7 @@ setup(
         'gradio==5.9.1',
         'grpcio==1.68.0',
         'gym==0.26.2',
-        'numpy==2.2.1',  
+        'numpy>=1.18.0,<2.0.0',  
         'openai==1.59.3',
         'protobuf==3.20.3',
         'pydantic==2.10.4',

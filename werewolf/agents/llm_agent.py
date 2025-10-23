@@ -84,20 +84,19 @@ class LLMAgent(Agent):
                 log_tmp = "狼人队伍在{}猎杀了{}号。\n".format(log.time, log.target)
             elif log.event == 'skill_seer':
                 log_tmp = "{}号是预言家，你在{}查验了{}号的身份是{}。\n".format(log.source, log.time, log.target,
-                                                                              '狼人' if log.content[
-                                                                                            'cheked_identity'] == 'bad' else '好人')
+                                                                              '狼人' if log.content['查验结果'] == 'bad' else '好人')
             elif log.event == 'skill_guard':
                 log_tmp = "{}号是守卫，你在{}守护了{}号。\n".format(log.source, log.time, log.target)
             elif log.event == 'skill_witch':
-                if 'heal' in log.content:
+                if '解药目标' in log.content:
                     log_tmp = "{}号是女巫，你在{}使用解药治疗了{}号。\n".format(log.source, log.time, log.target)
-                elif 'poison' in log.content:
+                elif '毒药目标' in log.content:
                     log_tmp = "{}号是女巫，你在{}使用毒药毒害了{}号。\n".format(log.source, log.time, log.target)
             elif log.event == 'skill_hunter':
                 log_tmp = "{}号是猎人，他在{}射杀了{}号。\n".format(log.source, log.time, log.target)
             elif log.event == 'speech' or log.event == 'speech_pk':
-                if len(log.content['speech_content']) > 0:
-                    log_tmp = "{}号在{}发言内容：{}。\n".format(log.source, log.time, log.content['speech_content'])
+                if len(log.content['发言内容']) > 0:
+                    log_tmp = "{}号在{}发言内容：{}。\n".format(log.source, log.time, log.content['发言内容'])
                 else:
                     log_tmp = "{}号在{}发言内容为空。\n".format(log.source, log.time)
             elif log.event == 'vote':
@@ -114,7 +113,7 @@ class LLMAgent(Agent):
                 log_tmp = "游戏结束！\n"
             elif log.event == 'end_night':
                 dead_list = ""
-                for idx in log.content['dead_list']:
+                for idx in log.content['死亡名单']:
                     dead_list += '{}号、'.format(idx)
                 if len(dead_list) > 0:
                     dead_list = dead_list[:-1]
@@ -122,11 +121,11 @@ class LLMAgent(Agent):
                 else:
                     log_tmp = "{}无人死亡。\n".format(log.time)
             elif log.event == 'end_vote':
-                if log.content['vote_outcome'] == 'all abstention':
+                if log.content['投票结果'] == '全员弃票':
                     log_tmp = "{}所有玩家放弃投票，直接进入夜晚。\n".format(log.time)
-                elif log.content['vote_outcome'] == 'all abstention in pk':
+                elif log.content['投票结果'] == 'PK阶段全员弃票':
                     log_tmp = "{}再次发言，所有玩家放弃投票，直接进入夜晚。\n".format(log.time)
-                elif log.content['vote_outcome'] == 'draw':
+                elif log.content['投票结果'] == '平票':
                     pk_speech_list = ''
                     for idx in log.content['speech_queue']:
                         pk_speech_list += '{}号、'.format(idx)
@@ -137,10 +136,10 @@ class LLMAgent(Agent):
                         pk_vote_list += '{}号、'.format(idx)
                     pk_vote_list = pk_vote_list[:-1]
                     log_tmp = "{}平票，由{}再次发言，{}进行投票。\n".format(log.time, pk_speech_list, pk_vote_list)
-                elif log.content['vote_outcome'] == 'draw in pk':
+                elif log.content['投票结果'] == 'PK阶段平票':
                     log_tmp = "{}再次平票，直接进入夜晚。\n".format(log.time)
-                elif type(log.content['vote_outcome']) == int:
-                    log_tmp = "{}通过投票驱逐了{}号。\n".format(log.time, log.content['expelled'])
+                elif type(log.content['投票结果']) == int:
+                    log_tmp = "{}通过投票驱逐了{}号。\n".format(log.time, log.content['被放逐玩家'])
                 else:
                     raise ValueError
             elif log.event == 'werewolf_team_info':

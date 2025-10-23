@@ -1,0 +1,27 @@
+# Qwen3-Next-80B vs GPT-4 对战配置
+env_config:
+    n_player: 9
+    n_role: 5
+    n_werewolf: 3
+    n_seer: 1
+    n_guard: 1
+    n_witch: 1
+    n_villager: 3
+    n_hunter: 0
+
+# agent assignment
+agent_config:
+    werewolf:
+        model_type: qwen
+        model_params:
+            tokenizer: null
+            llm: qwen3-coder-plus
+            temperature: 0.7
+            base_url: https://apis.iflow.cn/v1/chat/completions
+            api_key: sk-f3ee5353f375f45271fd55792e91564a
+    villager:
+        model_type: gpt
+        model_params:
+            tokenizer: null
+            llm: gpt-4o
+            temperature: 0.7

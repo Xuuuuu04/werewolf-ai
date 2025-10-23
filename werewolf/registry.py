@@ -28,44 +28,34 @@ class Registry(BaseModel):
             )
         agent_params = {}
 
-        if "sft" in type.lower() or "makto" in type.lower():
-            port = kwargs["port"]
-            ip = kwargs.get("ip", None)
-            if ip is None:
+        # 支持所有OpenAI API格式的模型（GPT、Qwen等）
+        if "gpt" in type.lower() or "o1" in type.lower() or "qwen" in type.lower():      
+            # 支持自定义OpenAI API端点
+            if "base_url" in kwargs and "api_key" in kwargs:
+                # 使用自定义端点
                 client = openai.OpenAI(
-                    api_key="EMPTY",
-                    base_url=f"http://localhost:{port}/v1",
+                    api_key=kwargs["api_key"],
+                    base_url=kwargs["base_url"]
                 )
             else:
-                client = openai.OpenAI(
-                    api_key="EMPTY",
-                    base_url=f"http://{ip}:{port}/v1",
+                # 使用Azure OpenAI（原有逻辑）
+                try:
+                    azure_endpoint = os.environ['AZURE_OPENAI_API_BASE']
+                except KeyError:
+                    raise EnvironmentError("Environment variable AZURE_OPENAI_API_BASE is not set.")
+                try:
+                    api_version = os.environ['AZURE_OPENAI_API_VERSION']
+                except KeyError:
+                    raise EnvironmentError("Environment variable AZURE_OPENAI_API_VERSION is not set.")
+                try:
+                    api_key = os.environ['AZURE_OPENAI_API_KEY']
+                except KeyError:
+                    raise EnvironmentError("Environment variable AZURE_OPENAI_API_KEY is not set.")
+                client = openai.AzureOpenAI(
+                    azure_endpoint=azure_endpoint,
+                    api_version=api_version,
+                    api_key=api_key
                 )
-            agent_params = {
-                "client": client,
-                "tokenizer": None,
-                "llm": type,
-                "temperature": kwargs["temperature"]
-            }
-
-        elif "gpt" in type.lower() or "o1" in type.lower():      
-            try:
-                azure_endpoint = os.environ['AZURE_OPENAI_API_BASE']
-            except KeyError:
-                raise EnvironmentError("Environment variable AZURE_OPENAI_API_BASE is not set.")
-            try:
-                api_version = os.environ['AZURE_OPENAI_API_VERSION']
-            except KeyError:
-                raise EnvironmentError("Environment variable AZURE_OPENAI_API_VERSION is not set.")
-            try:
-                api_key = os.environ['AZURE_OPENAI_API_KEY']
-            except KeyError:
-                raise EnvironmentError("Environment variable AZURE_OPENAI_API_KEY is not set.")
-            client = openai.AzureOpenAI(
-                azure_endpoint=azure_endpoint,
-                api_version=api_version,
-                api_key=api_key
-            )
             agent_params = {
                 "client": client,
                 "tokenizer": None,

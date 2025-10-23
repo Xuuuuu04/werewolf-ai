@@ -19,9 +19,9 @@ def eval(env, agent_list, roles_):
         obs, reward, done, info = env.step(action)
     if done:
         if info['Werewolf'] == 1:
-            return 'Werewolf win'
+            return '🐺 狼人获胜'
         elif info['Werewolf'] == -1:
-            return 'Villager win'
+            return '👥 村民获胜'
 
 def get_replaced_wolf_id(replace_players, assgined_roles):
     replace_type = replace_players.split("_")[1]
@@ -173,7 +173,7 @@ def main_cli(args):
             ["Seer"] * env_config["n_seer"] + ["Witch"] * env_config["n_witch"] + \
             ["Guard"] * env_config["n_guard"] + ["Hunter"] * env_config["n_hunter"]
     random.shuffle(roles)
-    print("New rollout: ", roles)
+    print("🎮 新游戏开始，角色分配: ", roles)
 
 
     check_agent_config(agent_config)
@@ -181,7 +181,7 @@ def main_cli(args):
     agent_list = define_agents(agent_config, env_config, args, roles)
     begin = time.time()
     result = eval(env, agent_list, roles)
-    print(time.time() - begin, result)
+    print("⏱️ 游戏耗时: {:.2f}秒 | 🏆 结果: {}".format(time.time() - begin, result))
 
 
 if __name__ == '__main__':

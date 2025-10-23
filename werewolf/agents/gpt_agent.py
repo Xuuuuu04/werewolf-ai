@@ -6,7 +6,7 @@ from werewolf.agents.prompt_template_v0 import CON
 from . import agent_registry as AgentRegistry
 
 
-@AgentRegistry.register(["gpt", "gpt-4", "GPT-4", "gpt4", "o1", "gpt4o", "gpt4o-mini"])
+@AgentRegistry.register(["gpt", "gpt-4", "GPT-4", "gpt4", "o1", "gpt4o", "gpt4o-mini", "qwen", "qwen3", "Qwen3-Next-80B-A3B-Instruct", "qwen3-coder-plus"])
 class GPTAgent(LLMAgent):
     def __init__(self,
                  client,
@@ -70,7 +70,12 @@ class GPTAgent(LLMAgent):
                         response = self.client.chat.completions.create(
                             model=self.llm, messages=messages, temperature=self.temperature
                         )
-                    raw_action = response.choices[0].message.content.strip().strip("- ")
+                    print(f"🔍 API响应类型: {type(response)}")
+                    print(f"🔍 API响应内容: {response}")
+                    if hasattr(response, 'choices'):
+                        raw_action = response.choices[0].message.content.strip().strip("- ")
+                    else:
+                        raw_action = str(response).strip().strip("- ")
                     try:
                         assert raw_action in valid_action
                         action = raw_action
@@ -78,7 +83,7 @@ class GPTAgent(LLMAgent):
                         action = valid_action[random.randint(0, len(valid_action) - 1)]
             else:
                 action = valid_action[random.randint(0, len(valid_action) - 1)]
-                print("random choose a valid action, action: {} valid_action: {}".format(action, valid_action))
+                print("🎲 随机选择有效动作: {} | 可选动作: {}".format(action, valid_action))
             env_action = self.nlp_action_to_env_action[action]
             if raw_action is None:
                 raw_action = action

@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Game Logs
+game_logs/
+test_logs/
+test_launcher_logs/
+logs/
+*.jsonl
+*.log
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+
+# Model checkpoints (如果有)
+checkpoints/
+models/
+*.pth
+*.bin
+*.ckpt
+
+# Configuration (可能包含敏感信息)
+# configs/*.yaml  # 如果不想提交配置文件的话取消注释
+
+# Project specific
+refactor_project.py
+
