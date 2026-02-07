@@ -434,3 +434,7 @@ Made with ❤️ by Werewolf AI Team
 
 ## 目录结构
 - 结构说明：[`docs/PROJECT_STRUCTURE.md`](./docs/PROJECT_STRUCTURE.md)
+
+## 迁移说明
+- 核心目录已迁移到 `src/werewolf` 与 `src/script`。
+- 根目录 `werewolf` / `script` 为兼容软链接，原有入口命令不变。
