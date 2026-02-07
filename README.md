@@ -424,3 +424,10 @@ Made with ❤️ by Werewolf AI Team
 ## 开发进度（截至 2026-02-07）
 - 已完成可公开仓库基线整理：补齐许可证、清理敏感与内部说明文件。
 - 当前版本可构建/可运行，后续迭代以 issue 与提交记录持续公开追踪。
+
+## Language
+- 中文：[`README.md`](./README.md)
+- English：[`README_EN.md`](./README_EN.md)
+
+## 统一源码目录
+- 源码入口：[`src/`](./src)
