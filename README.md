@@ -213,7 +213,7 @@ werewolf_ai/
 │   ├── qwen_vs_qwen.yaml
 │   ├── qwen_vs_gpt.yaml
 │   └── human_vs_qwen.yaml
-├── werewolf/            # 核心游戏逻辑
+├── src/werewolf/            # 核心游戏逻辑
 │   ├── agents/          # AI智能体
 │   │   ├── base_agent.py
 │   │   ├── gpt_agent.py        # GPT/Qwen等模型智能体
@@ -226,7 +226,7 @@ werewolf_ai/
 │   │   ├── log_utils.py
 │   │   └── utils.py
 │   └── registry.py      # 智能体注册中心
-├── script/              # 实用脚本
+├── src/script/              # 实用脚本
 │   ├── game_visualizer.py      # 游戏可视化工具
 │   └── stats_winning.py        # 胜率统计
 ├── start_game.py        # 游戏启动器
@@ -371,15 +371,15 @@ python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_pa
 ### 查看游戏回放
 
 ```bash
-python script/game_visualizer.py
+python src/script/game_visualizer.py
 ```
 
 ## 🛠️ 开发
 
 ### 添加新的AI模型
 
-1. 在 `werewolf/agents/gpt_agent.py` 中注册模型名称
-2. 在 `werewolf/registry.py` 中添加模型类型检测
+1. 在 `src/werewolf/agents/gpt_agent.py` 中注册模型名称
+2. 在 `src/werewolf/registry.py` 中添加模型类型检测
 3. 创建对应的配置文件
 
 ### 调试技巧
