@@ -35,7 +35,7 @@
 1. 克隆项目
 
 ```bash
-git clone git@gitcode.com:mumu_xsy/werewolf_ai.git
+git clone https://github.com/Xuuuuu04/werewolf-ai.git
 cd werewolf_ai
 ```
 
@@ -419,3 +419,7 @@ python script/game_visualizer.py
 Made with ❤️ by Werewolf AI Team
 
 </div>
+
+## 开发进度（截至 2026-02-07）
+- 当前开发进度与已知风险：`docs/PROJECT_STATUS.md`
+- 本仓库以可公开协作为目标维护，功能清单与后续计划以状态文档为准并持续更新。
