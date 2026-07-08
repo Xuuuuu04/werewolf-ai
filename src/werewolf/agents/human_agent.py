@@ -1,7 +1,6 @@
 import time
 from colorama import Style
 from werewolf.agents.llm_agent import LLMAgent
-from werewolf.agents.prompt_template_v0 import CON
 from werewolf.helper.console_ui import ConsoleUI
 from . import agent_registry as AgentRegistry
 

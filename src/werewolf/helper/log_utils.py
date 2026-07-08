@@ -65,7 +65,7 @@ def format_log_entry(log) -> str:
     content = getattr(log, 'content', {}) or {}
     src = log.source
     tgt = log.target
-    day = log.day
+    # 注意：day 字段在文案中暂未使用，但保留 log.day 属性以便后续扩展
     time = log.time
 
     if event == 'game_setting':

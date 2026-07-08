@@ -63,18 +63,28 @@ python start_game.py
 
 ### 命令行启动
 
+运行前请先设置 API 环境变量：
+
+```bash
+export LLM_API_KEY=sk-...
+export LLM_BASE_URL=https://...
+export LLM_MODEL=qwen3-coder-plus   # 可选，默认在配置文件中
+```
+
+然后启动游戏：
+
 ```bash
 # AI vs AI 模式
-python run_battle.py --config configs/qwen_vs_qwen.yaml --log_save_path ./logs/game_1
+python run_battle.py --config configs/qwen_vs_qwen.example.yaml --log_save_path ./logs/game_1
 
 # 人类 vs AI 模式
-python run_battle.py --config configs/human_vs_qwen.yaml --log_save_path ./logs/game_2
+python run_battle.py --config configs/human_vs_qwen.example.yaml --log_save_path ./logs/game_2
 
 # 显示调试信息
-python run_battle.py --config configs/qwen_vs_qwen.yaml --debug --log_save_path ./logs/debug_game
+python run_battle.py --config configs/qwen_vs_qwen.example.yaml --debug --log_save_path ./logs/debug_game
 
 # 隐藏调试信息（默认）
-python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_path ./logs/clean_game
+python run_battle.py --config configs/qwen_vs_qwen.example.yaml --no-debug --log_save_path ./logs/clean_game
 ```
 
 ## 🎮 游戏说明
@@ -126,8 +136,8 @@ python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_pa
    - 投票放逐可疑玩家
    - 如有平票，进入PK环节
 
-3. **🏆 胜利条件**
-   - 狼人获胜：狼人数量 ≥ 好人数量
+3. **🏆 胜利条件（标准9人局「屠边规则」）**
+   - 狼人获胜：杀光所有普通平民 **或** 杀光所有神职（预言家/女巫/守卫/猎人）
    - 村民获胜：所有狼人被淘汰
 
 ### 人类玩家操作指南
@@ -160,11 +170,19 @@ python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_pa
 
 ### 配置文件
 
-项目使用YAML格式的配置文件，位于 `configs/` 目录：
+项目使用 YAML 格式的配置文件，位于 `configs/` 目录。仓库提交的是脱敏模板（`.example.yaml`），密钥通过环境变量占位符 `${LLM_API_KEY}` 注入：
 
-- `qwen_vs_qwen.yaml` - AI自我对战（Qwen模型）
-- `qwen_vs_gpt.yaml` - Qwen vs GPT对战
-- `human_vs_qwen.yaml` - 人类 vs AI对战
+- `qwen_vs_qwen.example.yaml` - AI自我对战（Qwen模型）
+- `qwen_vs_gpt.example.yaml` - Qwen vs GPT对战
+- `human_vs_qwen.example.yaml` - 人类 vs AI对战
+- `human_player.example.yaml` - 单人类玩家模式
+
+如需自定义，可把 `.example.yaml` 复制为 `.yaml` 并填入真实值（`.yaml` 已被 `.gitignore` 忽略，不会提交密钥）：
+
+```bash
+cp configs/qwen_vs_qwen.example.yaml configs/qwen_vs_qwen.yaml
+# 编辑 configs/qwen_vs_qwen.yaml 填入 base_url 等
+```
 
 ### 配置说明
 
@@ -180,22 +198,22 @@ env_config:
     n_villager: 3      # 平民数量
     n_hunter: 0        # 猎人数量
 
-# AI模型配置
+# AI模型配置（api_key 用占位符，运行时从环境变量 LLM_API_KEY 解析）
 agent_config:
     werewolf:          # 狼人阵营使用的模型
         model_type: qwen3-coder-plus
         model_params:
             llm: qwen3-coder-plus
             temperature: 0.7
-            base_url: https://your-api-endpoint/v1/chat/completions
-            api_key: your-api-key
+            base_url: ${LLM_BASE_URL}
+            api_key: ${LLM_API_KEY}
     villager:          # 村民阵营使用的模型
         model_type: qwen3-coder-plus
         model_params:
             llm: qwen3-coder-plus
             temperature: 0.7
-            base_url: https://your-api-endpoint/v1/chat/completions
-            api_key: your-api-key
+            base_url: ${LLM_BASE_URL}
+            api_key: ${LLM_API_KEY}
 ```
 
 ### 支持的AI模型
@@ -209,10 +227,11 @@ agent_config:
 
 ```
 werewolf_ai/
-├── configs/              # 游戏配置文件
-│   ├── qwen_vs_qwen.yaml
-│   ├── qwen_vs_gpt.yaml
-│   └── human_vs_qwen.yaml
+├── configs/              # 脱敏配置模板（密钥用 ${LLM_API_KEY} 占位符）
+│   ├── qwen_vs_qwen.example.yaml
+│   ├── qwen_vs_gpt.example.yaml
+│   ├── human_vs_qwen.example.yaml
+│   └── human_player.example.yaml
 ├── src/werewolf/            # 核心游戏逻辑
 │   ├── agents/          # AI智能体
 │   │   ├── base_agent.py
@@ -223,13 +242,16 @@ werewolf_ai/
 │   ├── envs/            # 游戏环境
 │   │   └── werewolf_text_env_v0.py
 │   ├── helper/          # 辅助工具
-│   │   ├── log_utils.py
-│   │   └── utils.py
+│   │   ├── console_ui.py        # 控制台美化
+│   │   ├── log_utils.py         # 日志格式化（共享单一来源）
+│   │   └── utils.py             # 角色翻译、GPU 工具
+│   ├── config_loader.py     # 配置加载器（环境变量 + 旧密钥拒绝）
 │   └── registry.py      # 智能体注册中心
 ├── src/script/              # 实用脚本
 │   ├── game_visualizer.py      # 游戏可视化工具
 │   └── stats_winning.py        # 胜率统计
-├── start_game.py        # 游戏启动器
+├── tests/               # 单元 + 集成测试（pytest）
+├── start_game.py        # 游戏启动器（交互式）
 ├── run_battle.py        # 游戏运行主程序
 ├── setup.py             # 安装配置
 └── README.md            # 项目说明
@@ -240,30 +262,36 @@ werewolf_ai/
 ### 示例1：Qwen自我对战
 
 ```bash
+export LLM_API_KEY=sk-...
 python run_battle.py \
-    --config configs/qwen_vs_qwen.yaml \
-    --log_save_path ./logs/qwen_game \
-    --num_games 5
+    --config configs/qwen_vs_qwen.example.yaml \
+    --log_save_path ./logs/qwen_game
 ```
 
 ### 示例2：人类对战AI
 
 ```bash
+export LLM_API_KEY=sk-...
 python run_battle.py \
-    --config configs/human_vs_qwen.yaml \
+    --config configs/human_vs_qwen.example.yaml \
     --log_save_path ./logs/human_game
 ```
 
-### 示例3：使用自定义API
+### 示例3：使用自定义API端点
 
-修改配置文件中的 `base_url` 和 `api_key`：
+把 `.example.yaml` 复制为 `.yaml` 后修改 `base_url`（`.yaml` 已被 git 忽略）：
+
+```bash
+cp configs/qwen_vs_qwen.example.yaml configs/qwen_vs_qwen.yaml
+# 编辑 configs/qwen_vs_qwen.yaml
+```
 
 ```yaml
 agent_config:
     werewolf:
         model_params:
             base_url: https://your-custom-api.com/v1/chat/completions
-            api_key: your-custom-key
+            api_key: ${LLM_API_KEY}
 ```
 
 ## 🔧 调试模式
@@ -285,10 +313,10 @@ python start_game.py
 **方式2：命令行参数**
 ```bash
 # 显示调试信息
-python run_battle.py --config configs/qwen_vs_qwen.yaml --debug --log_save_path ./logs/debug
+python run_battle.py --config configs/qwen_vs_qwen.example.yaml --debug --log_save_path ./logs/debug
 
 # 隐藏调试信息（默认）
-python run_battle.py --config configs/qwen_vs_qwen.yaml --no-debug --log_save_path ./logs/clean
+python run_battle.py --config configs/qwen_vs_qwen.example.yaml --no-debug --log_save_path ./logs/clean
 ```
 
 ### 调试信息包括

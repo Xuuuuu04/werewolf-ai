@@ -5,7 +5,6 @@ OpenAI 客户端 + GPU 探测属于不必要的导入副作用，已移除。
 需要 client 时请走 `werewolf.registry.Registry.build`。
 """
 import re
-import os
 
 # 兼容历史 import：tokenizer encoding 由调用方按需创建
 tiktoken_encoding = None

@@ -5,9 +5,8 @@
 提供彩色输出、格式化显示等功能
 """
 
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore, Style
 import os
-import sys
 import re
 
 # 初始化colorama（Windows兼容）

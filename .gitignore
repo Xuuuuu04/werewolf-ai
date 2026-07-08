@@ -40,6 +40,7 @@ game_logs/
 test_logs/
 test_launcher_logs/
 logs/
+tmp_logs/
 *.jsonl
 *.log
 

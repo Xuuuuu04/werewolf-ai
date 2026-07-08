@@ -1,10 +1,10 @@
 import random
 from copy import deepcopy
-import json, os
-import numpy as np
+import json
+import os
+
 import gymnasium as gym
 from collections import Counter
-import json
 
 from werewolf.helper.log_utils import Log
 
@@ -296,9 +296,10 @@ class WerewolfTextEnvV0(gym.Env):
             if self.log_save_path is not None:
                 if not os.path.exists(self.log_save_path):
                     os.mkdir(self.log_save_path)
-                with open(os.path.join(self.log_save_path, f'game_log.json'), 'w', encoding='utf-8') as file:
-                    self.trans_obs_env_to_agt(self.game_log)
-                    tmp_game_log = [log.__dict__ for log in self.game_log]
+                with open(os.path.join(self.log_save_path, 'game_log.json'), 'w', encoding='utf-8') as file:
+                    # 转为 agent 视角的 1-based 日志后写盘；trans_obs_env_to_agt 不再 mutate 入参
+                    agent_view_log = self.trans_obs_env_to_agt(self.game_log)
+                    tmp_game_log = [log.__dict__ for log in agent_view_log]
                     logs = json.dumps(tmp_game_log,ensure_ascii=False,indent=4)
                     file.write(logs)
 
@@ -557,18 +558,29 @@ class WerewolfTextEnvV0(gym.Env):
         return '第' + str(self.day) + '天' + ('白天' if self.day_or_night == 'day' else '夜晚')
 
     def trans_obs_env_to_agt(self, game_log):
+        """把内部 0-based 玩家编号的日志转换为 agent 视角的 1-based。
+
+        函数式实现：返回新的 Log 列表，不修改入参。
+        历史版本直接 mutate 入参，会污染 `self.game_log` 导致重复调用时编号被多次 +1。
+        """
+        new_logs = []
         for log in game_log:
-            log.viewer = [idx + 1 for idx in log.viewer]
-            log.source += 1
-            log.target = [idx + 1 for idx in log.target] if type(log.target) is list else log.target + 1
-            for key, value in log.content.items():
-                if log.event == 'game_setting' or log.event == 'end_game':
-                    continue
-                if type(value) is int:
-                    log.content[key] += 1
-                if type(value) is list:
-                    log.content[key] = [idx + 1 for idx in log.content[key]]
-        return game_log
+            new_viewer = [idx + 1 for idx in log.viewer]
+            new_source = log.source + 1
+            if isinstance(log.target, list):
+                new_target = [idx + 1 for idx in log.target]
+            else:
+                new_target = log.target + 1
+            new_content = dict(log.content)
+            if log.event not in ('game_setting', 'end_game'):
+                for key, value in new_content.items():
+                    if isinstance(value, int):
+                        new_content[key] = value + 1
+                    elif isinstance(value, list):
+                        new_content[key] = [idx + 1 for idx in value]
+            new_logs.append(Log(viewer=new_viewer, source=new_source, target=new_target,
+                                content=new_content, day=log.day, time=log.time, event=log.event))
+        return new_logs
 
     def trans_action_agt_to_env(self, action):
         assert type(action) is tuple and len(action) == 2 and type(action[0]) == str

@@ -2,7 +2,6 @@ import time
 import re
 import random
 from werewolf.agents.llm_agent import LLMAgent
-from werewolf.agents.prompt_template_v0 import CON
 from . import agent_registry as AgentRegistry
 
 
