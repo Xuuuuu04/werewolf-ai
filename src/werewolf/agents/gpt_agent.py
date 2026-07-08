@@ -15,7 +15,8 @@ class GPTAgent(LLMAgent):
                  temperature=1.0,
                  log_file=None,
                  debug=False):
-        super().__init__(client=client, tokenizer=tokenizer, llm=llm, temperature=temperature, log_file=log_file)
+        super().__init__(client=client, tokenizer=tokenizer, llm=llm, temperature=temperature,
+                         log_file=log_file, debug=debug)
         self.client = client
         self.llm = llm
         self.rate_limit = 6
@@ -25,7 +26,8 @@ class GPTAgent(LLMAgent):
     def act(self, observation):
         prompt = self.format_observation(observation)
         phase = observation['phase']
-        valid_action = list(self.nlp_action_to_env_action.keys())  
+        # 仅在 skill/vote 阶段才需要枚举可选动作；speech 阶段不使用
+        valid_action = list(self.nlp_action_to_env_action.keys()) if 'speech' not in phase else []
         time.sleep(self.rate_limit)
         if 'speech' in phase:
             if self.llm is not None:
@@ -54,7 +56,7 @@ class GPTAgent(LLMAgent):
                                         "role": observation['identity'],
                                         "phase": phase,
                                         "gen_times": gen_times})
-        else: 
+        else:
             retry_count = 0
             raw_action = None
             if self.llm is not None:
@@ -79,10 +81,10 @@ class GPTAgent(LLMAgent):
                         raw_action = response.choices[0].message.content.strip().strip("- ")
                     else:
                         raw_action = str(response).strip().strip("- ")
-                    try:
-                        assert raw_action in valid_action
+                    # 严格校验：无效则随机选一个合法动作，避免 LLM 输出异常导致卡死
+                    if raw_action in valid_action:
                         action = raw_action
-                    except:
+                    else:
                         action = valid_action[random.randint(0, len(valid_action) - 1)]
             else:
                 action = valid_action[random.randint(0, len(valid_action) - 1)]
@@ -99,7 +101,7 @@ class GPTAgent(LLMAgent):
                                         "player_id": observation['current_act_idx'],
                                         "role": observation['identity'],
                                         "phase": phase,
-                                        "gen_times": retry_count - 1})
+                                        "gen_times": max(retry_count - 1, 0)})
         return env_action
 
     def extract_answer(self, response):

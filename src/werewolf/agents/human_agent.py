@@ -1,4 +1,5 @@
 import time
+from colorama import Style
 from werewolf.agents.llm_agent import LLMAgent
 from werewolf.agents.prompt_template_v0 import CON
 from werewolf.helper.console_ui import ConsoleUI
@@ -13,7 +14,8 @@ class HumanAgent(LLMAgent):
                  temperature=1.0,
                  log_file=None,
                  debug=False):
-        super().__init__(client=client, tokenizer=tokenizer, llm=llm, temperature=temperature, log_file=log_file)
+        super().__init__(client=client, tokenizer=tokenizer, llm=llm, temperature=temperature,
+                         log_file=log_file, debug=debug)
         self.client = client
         self.llm = llm
         self.rate_limit = 6
@@ -115,8 +117,4 @@ class HumanAgent(LLMAgent):
                                         "role": observation['identity'],
                                         "phase": phase,
                                         "gen_times": 0})
-        print("我是{}号，我的身份是{}, 当前阶段：{} raw_action {}".format(observation['current_act_idx'],
-                                                                        observation['identity'],
-                                                                        observation['phase'],
-                                                                        env_action))
         return env_action

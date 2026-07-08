@@ -1,46 +1,39 @@
+"""通用工具函数。
+
+历史上下面的工具类/函数曾被外部脚本使用，但模块顶层实例化
+OpenAI 客户端 + GPU 探测属于不必要的导入副作用，已移除。
+需要 client 时请走 `werewolf.registry.Registry.build`。
+"""
 import re
-import torch
 import os
-import openai
-import tiktoken
-import subprocess
 
-# 支持自定义API端点，如果没有设置环境变量则使用默认值
-try:
-    azure_endpoint = os.environ['AZURE_OPENAI_API_BASE']
-except KeyError:
-    azure_endpoint = "https://api.openai.com/v1"  # 默认使用OpenAI API
+# 兼容历史 import：tokenizer encoding 由调用方按需创建
+tiktoken_encoding = None
 
-try:
-    api_version = os.environ['AZURE_OPENAI_API_VERSION']
-except KeyError:
-    api_version = "2024-02-15-preview"  # 默认版本
 
-try:
-    api_key = os.environ['AZURE_OPENAI_API_KEY']
-except KeyError:
-    api_key = "dummy_key"  # 默认密钥，实际使用时会被替换
+def _lazy_tiktoken():
+    """按需加载 tiktoken 编码，避免模块顶层强依赖。"""
+    global tiktoken_encoding
+    if tiktoken_encoding is None:
+        import tiktoken
+        tiktoken_encoding = tiktoken.encoding_for_model("gpt-4-32k-0613")
+    return tiktoken_encoding
 
-client = openai.AzureOpenAI(
-    azure_endpoint=azure_endpoint,
-    api_version=api_version,
-    api_key=api_key
-)
-
-tiktoken_encoding = tiktoken.encoding_for_model("gpt-4-32k-0613")
 
 MAX_ERROR = 3
 
 
+# 英文角色 -> 中文角色（修复：Hunter 应为「猎人」而非「村民」）
 role_en2cn = {
     "Werewolf": "狼人",
     "Villager": "普通村民",
     "Seer": "预言家",
     "Guard": "守卫",
     "Witch": "女巫",
-    "Hunter": "村民"
+    "Hunter": "猎人",
 }
 
+# 中文角色 -> 英文角色
 role_cn2en = {
     "狼人": "Werewolf",
     "村民": "Villager",
@@ -48,11 +41,13 @@ role_cn2en = {
     "预言家": "Seer",
     "守卫": "Guard",
     "女巫": "Witch",
-    "猎人": "Hunter"
+    "猎人": "Hunter",
 }
 
 
 def get_gpu_memory_map():
+    """查询 GPU 显存占用。仅在 CUDA 环境下可用。"""
+    import subprocess
     result = subprocess.check_output(
         [
             'nvidia-smi', '--query-gpu=memory.used,memory.total',
@@ -65,7 +60,14 @@ def get_gpu_memory_map():
     }
     return gpu_memory_map
 
+
 def get_available_devices(threshold=50000):
+    """选择可用 GPU 设备；无 CUDA 时回退 CPU。"""
+    try:
+        import torch
+    except ImportError:
+        return "cpu"
+
     device = "auto"
     if torch.cuda.is_available():
         n_gpu = torch.cuda.device_count()
@@ -80,11 +82,16 @@ def get_available_devices(threshold=50000):
     else:
         device = "cpu"
     return device
-    
+
 
 class Matcher:
+    """正则匹配器，用于从早期 v3 prompt 输出中抽取笔记/投票等结构化字段。
+
+    注意：v3 prompt 当前未被环境/agent 实际使用，保留以兼容旧实验日志分析脚本。
+    """
+
     def __init__(self):
-        self.summary_pattern = r"总结：\s*(.*?)(?=投票原因)" 
+        self.summary_pattern = r"总结：\s*(.*?)(?=投票原因)"
         self.summary_pattern_v2 = r"总结：\s*(.*?)\n综上"
         self.detailed_summary_pattern = r'\*\*(.*?)\*\*：(.*?)(?=\*\*|#|$)'
         self.vote_pattern = r"投票原因：\s*(.*?)。\n基于上述"
@@ -99,7 +106,6 @@ class Matcher:
         self.last_night_happened_pattern = r"昨晚发生：\s*(.*?);"
         self.last_night_action_pattern = r"昨晚行动：\s*(.*?);"
         self.previous_speech_pattern = r'本轮在你之前的玩家发言：(.*?)请根据上述内容形成你本轮的发言。'
-
 
     def match_note(self, text, output_str=False):
         text = text.replace("#投票原因", "投票原因")
@@ -129,7 +135,7 @@ class Matcher:
             return summary
 
     def match_role_pred_in_note(self, text):
-        match = re.search(self.role_pred_in_note_pattern, text+"\n", re.DOTALL)
+        match = re.search(self.role_pred_in_note_pattern, text + "\n", re.DOTALL)
         if match:
             role_prediction_text = match.group(1).strip()
         else:
@@ -180,5 +186,3 @@ class Matcher:
             short_prompt_info += f"前置位发言：\n{previous_speech.group(1)}\n"
 
         return short_prompt_info
-
-

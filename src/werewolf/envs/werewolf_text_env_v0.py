@@ -466,6 +466,11 @@ class WerewolfTextEnvV0(gym.Env):
         return reward, done, info
 
     def is_done(self):
+        """根据标准 9 人局「屠边规则」判定胜负。
+
+        - 好人获胜：所有狼人被淘汰。
+        - 狼人获胜：所有普通村民被淘汰 **或** 所有神职（预言家/女巫/守卫/猎人）被淘汰。
+        """
         wolf_count = 0
         villager_count = 0
         god_count = 0
@@ -477,14 +482,14 @@ class WerewolfTextEnvV0(gym.Env):
                     villager_count += 1
                 else:
                     god_count += 1
-        
+
         # 好人阵营获胜：所有狼人被淘汰
         if wolf_count == 0:
             done = True
             reward = [-self.werewolf_reward if role == 'Werewolf' else self.village_reward for role in self.roles]
             info = {'Werewolf': -1}
-        # 狼人阵营获胜：狼人数量 >= 好人数量（此时好人无法在白天投票淘汰狼人）
-        elif wolf_count >= (villager_count + god_count):
+        # 狼人阵营获胜：屠边规则——平民全死 或 神职全死
+        elif villager_count == 0 or god_count == 0:
             done = True
             reward = [self.werewolf_reward if role == 'Werewolf' else -self.village_reward for role in self.roles]
             info = {'Werewolf': 1}

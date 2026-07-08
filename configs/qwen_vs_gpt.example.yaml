@@ -1,0 +1,31 @@
+# 此文件为脱敏模板。复制为同名 .yaml 后用环境变量填充真实值。
+#   export LLM_API_KEY=sk-...
+#   export LLM_BASE_URL=https://...
+#   export LLM_MODEL=qwen3-coder-plus
+
+env_config:
+  n_player: 9
+  n_role: 5
+  n_werewolf: 3
+  n_seer: 1
+  n_guard: 1
+  n_witch: 1
+  n_villager: 3
+  n_hunter: 0
+agent_config:
+  werewolf:
+    model_type: qwen
+    model_params:
+      tokenizer: null
+      llm: qwen3-coder-plus
+      temperature: 0.7
+      base_url: ${LLM_BASE_URL}
+      api_key: ${LLM_API_KEY}
+      debug: false
+  villager:
+    model_type: gpt
+    model_params:
+      tokenizer: null
+      llm: gpt-4o
+      temperature: 0.7
+      debug: false

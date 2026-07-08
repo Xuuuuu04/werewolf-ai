@@ -56,7 +56,13 @@ models/
 *.ckpt
 
 # Configuration (可能包含敏感信息)
-# configs/*.yaml  # 如果不想提交配置文件的话取消注释
+configs/*.yaml
+config.yaml
+!configs/*.example.yaml
+
+# 环境变量
+.env
+.env.*
 
 # Project specific
 refactor_project.py

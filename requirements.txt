@@ -1,19 +1,13 @@
-# AI狼人杀游戏 - 依赖包列表
-
-# 核心依赖
-colorama>=0.4.6         # 控制台彩色输出
-gymnasium>=0.29.0       # 游戏环境（替代gym）
-numpy>=1.18.0,<2.0.0   # 数值计算
-pydantic>=2.0.0         # 数据验证
-PyYAML>=6.0             # YAML配置文件
-tenacity>=8.0.0         # 重试机制
-
-# AI模型相关
-openai>=1.50.0          # OpenAI API客户端
-tiktoken>=0.5.0         # Token计数
-torch>=2.0.0            # PyTorch
-transformers>=4.30.0    # HuggingFace Transformers
-
-# 可选依赖（用于可视化）
-# gradio>=4.0.0         # Web界面（可选）
-
+gymnasium==0.29.1
+numpy>=1.24,<2.0
+pydantic>=2.0,<3.0
+openai>=1.0,<2.0
+colorama>=0.4.6
+tenacity>=8.0,<9.0
+PyYAML>=6.0
+tiktoken>=0.5.0
+# 可视化是可选功能，需运行 game_visualizer.py 时单独安装
+# gradio>=4.0.0
+# 以下两个仅 utils.get_available_devices 用到，且为懒加载
+# torch>=2.0
+# transformers>=4.30

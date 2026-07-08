@@ -1,7 +1,7 @@
 import logging
 from werewolf.agents.prompt_template_v0 import CON
 from werewolf.agents.base_agent import Agent
-from werewolf.helper.log_utils import JsonFormatter, CustomLoggerAdapter
+from werewolf.helper.log_utils import JsonFormatter, CustomLoggerAdapter, format_game_log
 
 class LLMAgent(Agent):
     def __init__(self,
@@ -73,88 +73,12 @@ class LLMAgent(Agent):
 
 
     def format_log(self, game_log):
-        logs = ""
-        for log in game_log:
-            log_tmp=""
-            if log.event == 'game_setting':
-                log_tmp = '本局游戏各个身份和对应数量如下：\n'
-                for key, value in log.content.items():
-                    log_tmp += "- {}:{}\n".format(CON.identity_chinese[key], value)
-            if log.event == 'skill_wolf':
-                log_tmp = "{}号是狼人，他在{}准备猎杀{}号。\n".format(log.source, log.time, log.target)
-            elif log.event == 'kill_decision':
-                log_tmp = "狼人队伍在{}猎杀了{}号。\n".format(log.time, log.target)
-            elif log.event == 'skill_seer':
-                log_tmp = "{}号是预言家，你在{}查验了{}号的身份是{}。\n".format(log.source, log.time, log.target,
-                                                                              '狼人' if log.content['查验结果'] == 'bad' else '好人')
-            elif log.event == 'skill_guard':
-                log_tmp = "{}号是守卫，你在{}守护了{}号。\n".format(log.source, log.time, log.target)
-            elif log.event == 'skill_witch':
-                if '解药目标' in log.content:
-                    log_tmp = "{}号是女巫，你在{}使用解药治疗了{}号。\n".format(log.source, log.time, log.target)
-                elif '毒药目标' in log.content:
-                    log_tmp = "{}号是女巫，你在{}使用毒药毒害了{}号。\n".format(log.source, log.time, log.target)
-            elif log.event == 'skill_hunter':
-                log_tmp = "{}号是猎人，他在{}射杀了{}号。\n".format(log.source, log.time, log.target)
-            elif log.event == 'speech' or log.event == 'speech_pk':
-                if len(log.content['发言内容']) > 0:
-                    log_tmp = "{}号在{}发言内容：{}。\n".format(log.source, log.time, log.content['发言内容'])
-                else:
-                    log_tmp = "{}号在{}发言内容为空。\n".format(log.source, log.time)
-            elif log.event == 'vote':
-                if log.target > 0:
-                    log_tmp = "{}号在{}投票给{}号。\n".format(log.source, log.time, log.target)
-                else:
-                    log_tmp = "{}号在{}放弃投票。\n".format(log.source, log.time, log.target)
-            elif log.event == 'vote_pk':
-                if log.target > 0:
-                    log_tmp = "{}号在{}pk环节投票给{}号。\n".format(log.source, log.time, log.target)
-                else:
-                    log_tmp = "{}号在{}pk环节放弃投票。\n".format(log.source, log.time, log.target)
-            elif log.event == 'end_game':
-                log_tmp = "游戏结束！\n"
-            elif log.event == 'end_night':
-                dead_list = ""
-                for idx in log.content['死亡名单']:
-                    dead_list += '{}号、'.format(idx)
-                if len(dead_list) > 0:
-                    dead_list = dead_list[:-1]
-                    log_tmp = "{}死亡的玩家是{}。\n".format(log.time, dead_list)
-                else:
-                    log_tmp = "{}无人死亡。\n".format(log.time)
-            elif log.event == 'end_vote':
-                if log.content['投票结果'] == '全员弃票':
-                    log_tmp = "{}所有玩家放弃投票，直接进入夜晚。\n".format(log.time)
-                elif log.content['投票结果'] == 'PK阶段全员弃票':
-                    log_tmp = "{}再次发言，所有玩家放弃投票，直接进入夜晚。\n".format(log.time)
-                elif log.content['投票结果'] == '平票':
-                    pk_speech_list = ''
-                    for idx in log.content['speech_queue']:
-                        pk_speech_list += '{}号、'.format(idx)
-                    pk_speech_list = pk_speech_list[:-1]
+        """委托给共享实现 `werewolf.helper.log_utils.format_game_log`。
 
-                    pk_vote_list = ''
-                    for idx in log.content['vote_queue']:
-                        pk_vote_list += '{}号、'.format(idx)
-                    pk_vote_list = pk_vote_list[:-1]
-                    log_tmp = "{}平票，由{}再次发言，{}进行投票。\n".format(log.time, pk_speech_list, pk_vote_list)
-                elif log.content['投票结果'] == 'PK阶段平票':
-                    log_tmp = "{}再次平票，直接进入夜晚。\n".format(log.time)
-                elif type(log.content['投票结果']) == int:
-                    log_tmp = "{}通过投票驱逐了{}号。\n".format(log.time, log.content['被放逐玩家'])
-                else:
-                    raise ValueError
-            elif log.event == 'werewolf_team_info':
-                wolf_team = ''
-                for idx in log.content['wolf_team']:
-                    wolf_team += '{}号、'.format(idx)
-                wolf_team = wolf_team[:-1]
-                log_tmp = "狼人队伍的成员是{}。\n".format(wolf_team)
-            elif log.event == 'self_identity':
-                pass
-            logs += log_tmp
-
-        return logs
+        历史上此方法与 run_battle.format_game_log 各维护一份中文文案，
+        容易分叉。现统一从 log_utils.format_log_entry 取值。
+        """
+        return format_game_log(game_log)
 
     def get_valid_actions_str(self, valid_actions):
         valid_actions_str = ""

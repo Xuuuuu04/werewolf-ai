@@ -1,14 +1,14 @@
 import random
 from werewolf.envs.werewolf_text_env_v0 import WerewolfTextEnvV0
 from werewolf.helper.console_ui import ConsoleUI
+from werewolf.config_loader import load_config
 import time
 import argparse
 import os
 from werewolf.agents import agent_registry
-import yaml
+
 
 def eval(env, agent_list, roles_):
-    print(agent_list)
     for agent in agent_list:
         agent.reset()
     done = False
@@ -26,9 +26,9 @@ def eval(env, agent_list, roles_):
         display_current_state(env, obs)
 
         # 如果是人类玩家，等待用户输入后继续
-        if hasattr(agent_list[current_act_idx - 1], 'debug') and agent_list[current_act_idx - 1].debug:
-            if 'human' in str(type(agent_list[current_act_idx - 1])).lower():
-                input("\n按回车键继续...")
+        agent = agent_list[current_act_idx - 1]
+        if getattr(agent, 'debug', False) and 'human' in type(agent).__name__.lower():
+            input("\n按回车键继续...")
 
     if done:
         if info['Werewolf'] == 1:
@@ -74,46 +74,13 @@ def display_current_state(env, obs):
 
 
 def format_game_log(game_log):
-    """格式化游戏日志为可读文本"""
-    formatted_lines = []
+    """格式化游戏日志为可读文本。
 
-    for log in game_log:
-        if hasattr(log, 'content') and log.content:
-            # 格式化不同类型的日志
-            if '猎杀目标' in log.content:
-                formatted_lines.append(f"{log.source}号是狼人，他在第{log.day}天夜晚准备猎杀{log.content['猎杀目标']}号。")
-            elif '猎杀决定' in log.content:
-                formatted_lines.append(f"狼人队伍在第{log.day}天夜晚猎杀了{log.content['猎杀决定']}号。")
-            elif '死亡名单' in log.content:
-                dead_players = ', '.join(map(str, log.content['死亡名单']))
-                formatted_lines.append(f"第{log.day}天夜晚死亡的玩家是{dead_players}。")
-            elif '查验结果' in log.content:
-                result = '狼人' if log.content['查验结果'] == 'bad' else '好人'
-                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚查验了{log.target}号的身份，结果为{result}。")
-            elif '保护目标' in log.content:
-                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚守护了{log.content['保护目标']}号。")
-            elif '解药目标' in log.content:
-                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚对{log.content['解药目标']}号使用了救药。")
-            elif '毒药目标' in log.content:
-                formatted_lines.append(f"{log.source}号在第{log.day}天夜晚对{log.content['毒药目标']}号使用了毒药。")
-            elif '射杀目标' in log.content:
-                formatted_lines.append(f"{log.source}号被投票出局时射杀了{log.content['射杀目标']}号。")
-            elif '发言内容' in log.content:
-                formatted_lines.append(f"{log.source}号在第{log.day}天白天发言内容：{log.content['发言内容']}。")
-            elif '投票目标' in log.content:
-                target = '弃票' if log.content['投票目标'] == -1 else f"{log.content['投票目标']}号"
-                formatted_lines.append(f"{log.source}号在第{log.day}天白天投票给{target}。")
-            elif '投票结果' in log.content:
-                if log.content['投票结果'] == '全员弃票':
-                    formatted_lines.append(f"第{log.day}天白天投票结果：全员弃票。")
-                elif log.content['投票结果'] == '平票':
-                    formatted_lines.append(f"第{log.day}天白天投票结果：平票。")
-                elif isinstance(log.content['投票结果'], int):
-                    formatted_lines.append(f"第{log.day}天白天通过投票驱逐了{log.content['投票结果']}号。")
-                elif '被放逐玩家' in log.content:
-                    formatted_lines.append(f"第{log.day}天白天通过投票驱逐了{log.content['被放逐玩家']}号。")
-
-    return '\n'.join(formatted_lines)
+    委托给共享实现 `werewolf.helper.log_utils.format_game_log`，
+    与 `LLMAgent.format_log` 同一来源，避免文案分叉。
+    """
+    from werewolf.helper.log_utils import format_game_log as _format
+    return _format(game_log)
 
 def get_replaced_wolf_id(replace_players, assgined_roles):
     replace_type = replace_players.split("_")[1]
@@ -139,11 +106,11 @@ def get_replaced_villager_ids(assgined_roles, replace_number):
     return replace_ids
 
 
-def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_config):
+def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_config, log_save_path):
     agent_list = []
     if "replace" not in agent_config:
         for i, role in enumerate(assgined_roles):
-            log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
+            log_file = os.path.join(log_save_path, f"Player_{i+1}.jsonl")
             if role.lower() == "werewolf":
                 type, agent_param = all_agent_models["werewolf"]
             else:
@@ -156,7 +123,7 @@ def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_c
     if replace_role == "werewolf":
         repalce_id = get_replaced_wolf_id(replace_players, assgined_roles)
         for i, role in enumerate(assgined_roles):
-            log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
+            log_file = os.path.join(log_save_path, f"Player_{i+1}.jsonl")
             if role.lower() == "werewolf" and i != repalce_id:
                 type, agent_param = all_agent_models["werewolf"]
             elif role.lower() == "werewolf" and i == repalce_id:
@@ -166,9 +133,9 @@ def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_c
             agent = agent_registry.build_agent(type, i, agent_param, env_param, log_file)
             agent_list.append(agent)
         return agent_list
-    elif replace_role in ["seer", "guard", "witch", "hunter"]: 
+    elif replace_role in ["seer", "guard", "witch", "hunter"]:
         for i, role in enumerate(assgined_roles):
-            log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
+            log_file = os.path.join(log_save_path, f"Player_{i+1}.jsonl")
             if role.lower() == "werewolf":
                 type, agent_param = all_agent_models["werewolf"]
             elif role.lower() == replace_role:
@@ -178,10 +145,10 @@ def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_c
             agent = agent_registry.build_agent(type, i, agent_param, env_param, log_file)
             agent_list.append(agent)
         return agent_list
-    elif replace_role == "gods": 
+    elif replace_role == "gods":
         replace_gods = replace_players.split("_")[1].split("-")
         for i, role in enumerate(assgined_roles):
-            log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
+            log_file = os.path.join(log_save_path, f"Player_{i+1}.jsonl")
             if role.lower() == "werewolf":
                 type, agent_param = all_agent_models["werewolf"]
             elif role.lower() in replace_gods:
@@ -195,7 +162,7 @@ def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_c
         replace_number = int(replace_players.split("_")[1])
         replace_ids = get_replaced_simple_villager_ids(assgined_roles, replace_number)
         for i, role in enumerate(assgined_roles):
-            log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
+            log_file = os.path.join(log_save_path, f"Player_{i+1}.jsonl")
             if role.lower() == "werewolf":
                 type, agent_param = all_agent_models["werewolf"]
             elif i in replace_ids:
@@ -205,11 +172,11 @@ def assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_c
             agent = agent_registry.build_agent(type, i, agent_param, env_param, log_file)
             agent_list.append(agent)
         return agent_list
-    elif replace_role == "villager": 
+    elif replace_role == "villager":
         replace_number = int(replace_players.split("_")[1].replace("random", ""))
         replace_ids = get_replaced_villager_ids(assgined_roles, replace_number)
         for i, role in enumerate(assgined_roles):
-            log_file = os.path.join(args.log_save_path, f"Player_{i+1}.jsonl")
+            log_file = os.path.join(log_save_path, f"Player_{i+1}.jsonl")
             if role.lower() == "werewolf":
                 type, agent_param = all_agent_models["werewolf"]
             elif i in replace_ids:
@@ -305,7 +272,7 @@ def define_agents(agent_config, env_config, args, assgined_roles):
         agent_config[group]["model_params"]["debug"] = debug_mode
 
         model_type = agent_config[group]["model_type"]
-        if model_type not in [i[0] for g,i in all_agent_models.items()]:
+        if model_type not in [i[0] for g, i in all_agent_models.items()]:
             all_agent_models[group] = agent_registry.build(model_type, **agent_config[group]["model_params"])
         else:
             for g, i in all_agent_models.items():
@@ -321,7 +288,7 @@ def define_agents(agent_config, env_config, args, assgined_roles):
             env_param["debug"] = agent_config[group]["model_params"].get("debug", False)
             break
 
-    return assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_config)
+    return assign_agents_and_roles(assgined_roles, all_agent_models, env_param, agent_config, args.log_save_path)
 
 
 def check_agent_config(agent_config):
@@ -334,24 +301,27 @@ def check_agent_config(agent_config):
 
 def main_cli(args):
     os.makedirs(args.log_save_path, exist_ok=True)
-    parsed_yaml = yaml.safe_load(open(args.config))
+    parsed_yaml = load_config(args.config)
     agent_config = parsed_yaml["agent_config"]
     env_config = parsed_yaml["env_config"]
-    
+
     # 检查是否启用单个人类玩家模式
     human_player_config = parsed_yaml.get("human_player", None)
-    
-    parent_directory = os.path.dirname(args.log_save_path)
-    if not os.path.exists(os.path.join(parent_directory, "config.yaml")):
-        with open(os.path.join(parent_directory, "config.yaml"), "w") as f:
-            yaml.dump(parsed_yaml, f)
+
+    # 在内存中应用 debug 标志，不写回配置文件以避免污染源文件
+    if args.debug or args.no_debug:
+        debug_flag = bool(args.debug)
+        for group_name, group_config in agent_config.items():
+            if "model_params" in group_config:
+                group_config["model_params"]["debug"] = debug_flag
+
     env_config["log_save_path"] = args.log_save_path
     env = WerewolfTextEnvV0(**env_config)
     roles = ["Werewolf"] * env_config["n_werewolf"] + ["Villager"] * env_config["n_villager"] + \
             ["Seer"] * env_config["n_seer"] + ["Witch"] * env_config["n_witch"] + \
             ["Guard"] * env_config["n_guard"] + ["Hunter"] * env_config["n_hunter"]
     random.shuffle(roles)
-    
+
     # 美化游戏开始提示
     ConsoleUI.print_header("🎮 狼人杀游戏开始", icon='', color=ConsoleUI.COLORS['info'])
     print(f"{ConsoleUI.COLORS['info']}角色配置：{roles}{ConsoleUI.COLORS['info']}\n")
@@ -370,7 +340,7 @@ def main_cli(args):
         agent_list = define_agents(agent_config, env_config, args, roles)
     begin = time.time()
     result = eval(env, agent_list, roles)
-    
+
     # 美化游戏结束提示
     elapsed_time = time.time() - begin
     ConsoleUI.print_info(f"⏱️ 游戏耗时: {elapsed_time:.2f}秒")
@@ -380,9 +350,9 @@ def main_cli(args):
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--config',
-                           type=str, default="configs/gpt4_vs_gpt4.yaml",
+                           type=str, default="configs/qwen_vs_qwen.example.yaml",
                            help="path to the config file of the game")
-    argparser.add_argument('--log_save_path', type=str, default=None)
+    argparser.add_argument('--log_save_path', type=str, default="logs/default")
     argparser.add_argument('--debug',
                            action='store_true',
                            help="show debug information (API responses, etc.)")
@@ -395,31 +365,5 @@ if __name__ == '__main__':
     if args.debug and args.no_debug:
         args.debug = True
         args.no_debug = False
-
-    # 应用debug设置到配置文件
-    if args.config and (args.debug or args.no_debug):
-        try:
-            import yaml
-            with open(args.config, 'r', encoding='utf-8') as f:
-                config = yaml.safe_load(f)
-
-            # 更新所有agent的debug设置
-            if 'agent_config' in config:
-                for group_name, group_config in config['agent_config'].items():
-                    if 'model_params' in group_config:
-                        config['agent_config'][group_name]['model_params']['debug'] = args.debug
-
-            # 更新human_player模式下的AI配置
-            if 'human_player' in config and config['human_player'].get('enabled', False):
-                if 'agent_config' in config and 'ai_model' in config['agent_config']:
-                    if 'model_params' in config['agent_config']['ai_model']:
-                        config['agent_config']['ai_model']['model_params']['debug'] = args.debug
-
-            # 写回配置文件
-            with open(args.config, 'w', encoding='utf-8') as f:
-                yaml.dump(config, f, default_flow_style=False, allow_unicode=True)
-
-        except Exception as e:
-            print(f"Warning: Failed to update debug config: {e}")
 
     main_cli(args)

@@ -29,7 +29,7 @@ class Registry(BaseModel):
         agent_params = {}
 
         # 支持所有OpenAI API格式的模型（GPT、Qwen等）
-        if "gpt" in type.lower() or "o1" in type.lower() or "qwen" in type.lower():      
+        if "gpt" in type.lower() or "o1" in type.lower() or "qwen" in type.lower():
             # 支持自定义OpenAI API端点
             if "base_url" in kwargs and "api_key" in kwargs:
                 # 使用自定义端点
@@ -60,14 +60,16 @@ class Registry(BaseModel):
                 "client": client,
                 "tokenizer": None,
                 "llm": kwargs["llm"],
-                "temperature": kwargs["temperature"]
+                "temperature": kwargs["temperature"],
+                "debug": kwargs.get("debug", False),
             }
         elif 'human' in type.lower():
             agent_params = {
                 "client": None,
                 "tokenizer": None,
                 "llm": None,
-                "temperature": 0
+                "temperature": 0,
+                "debug": kwargs.get("debug", False),
             }
         return type, agent_params
 
